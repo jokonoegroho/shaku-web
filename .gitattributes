@@ -1,0 +1,7 @@
+# Skrip shell dijalankan di dalam container Linux di router.
+# Akhir baris WAJIB LF — kalau CRLF ikut terbawa, shell membaca
+# "set -u\r" dan container langsung mati dengan status 2.
+*.sh text eol=lf
+
+# Berkas konfigurasi Caddy juga dibaca di Linux.
+Caddyfile text eol=lf

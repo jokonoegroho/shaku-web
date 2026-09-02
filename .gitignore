@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # Bundle panel admin, disalin otomatis dari node_modules saat build
 public/admin/sveltia-cms.js
+
+# Paket siap-salin ke USB router (dibuat ulang dari dist/)
+paket-usb/
+
+# Cadangan konfigurasi router (jangan masuk repo publik)
+cadangan-router/
