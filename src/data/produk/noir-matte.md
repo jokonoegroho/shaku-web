@@ -1,16 +1,19 @@
 ---
-nama: "Noir Matte"
-harga: 90000
-bentuk: "stiletto"
-panjang: "panjang"
-warna: ["hitam", "matte"]
-jumlahKuku: 24
+nama: Noir Matte
+ringkasan: Hitam matte runcing. Untuk yang mau tampil tegas dan berani.
 foto:
-  - "@assets/produk/noir-stiletto.jpg"
+  - '@assets/produk/Screenshot 2026-09-02 113512.png'
+harga: 90000
+hargaCoret: null
+bentuk: stiletto
+panjang: panjang
+warna:
+  - hitam
+  - matte
+jumlahKuku: 24
 tersedia: true
 unggulan: false
 urutan: 40
-ringkasan: "Hitam matte runcing. Untuk yang mau tampil tegas dan berani."
 ---
 
 Hitam pekat dengan hasil akhir matte, tanpa kilau sama sekali. Bentuk stiletto
