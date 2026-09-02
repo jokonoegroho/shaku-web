@@ -4,6 +4,9 @@ Situs katalog press-on nail **SHA.KU** (By.Gorgeousblom.nailart).
 Situs statis, pemesanan lewat WhatsApp, di-hosting sendiri di container
 RouterOS pada CCR2004.
 
+**Sudah online: <https://shaku.id>** — panel adminnya di
+<https://shaku.id/admin/>.
+
 > **Baru di sini atau lupa sudah sampai mana?**
 > Baca [docs/MULAI-DARI-SINI.md](docs/MULAI-DARI-SINI.md) — satu halaman,
 > berisi apa yang sudah jadi dan apa yang belum.
@@ -56,8 +59,8 @@ scripts/                Pembuat favicon, gambar pratinjau, foto contoh,
 - **Foto produk** masih placeholder bertulisan "FOTO CONTOH", dibuat oleh
   `scripts/buat-foto-contoh.mjs`. Ganti dengan foto asli, lalu hapus skrip itu.
 - **Data produk** (nama, harga, ketersediaan) masih contoh, bukan produk asli.
-- **Nama repo GitHub** di `public/admin/config.yml` masih `GANTI-AKUN-GITHUB`.
-  Panel admin belum bisa dipakai sebelum ini diganti. Jalan pintasnya:
-  buat repo `shaku-web` di GitHub, lalu jalankan `.\scripts\siapkan-github.ps1`.
 - **Akun Instagram/TikTok** di `src/konfigurasi.ts` masih kosong; kolomnya
   otomatis tidak tampil selama masih kosong.
+
+Repo GitHub, panel admin, dan deploy ke router sudah selesai — lihat
+[docs/deploy-ccr2004.md](docs/deploy-ccr2004.md).

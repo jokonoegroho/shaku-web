@@ -4,17 +4,25 @@ Dokumen lain sudah terlalu banyak. Halaman ini saja yang perlu dibaca dulu.
 
 ---
 
-## Situsnya sudah jadi
+## Situsnya sudah online
 
-Situs SHA.KU sudah bisa dilihat. Buka PowerShell, lalu ketik dua baris ini:
+**Buka <https://shaku.id> dari HP mana pun.** Situsnya sudah hidup di
+internet sejak 2 September 2026, jalan dari container di CCR2004 sendiri,
+dengan sertifikat HTTPS yang sah.
+
+Perubahan yang Anda simpan lewat panel admin sampai ke situs **dengan
+sendirinya** dalam sekitar 3–5 menit. Tidak ada yang perlu disalin, tidak
+ada yang perlu di-restart.
+
+Kalau ingin mengutak-atik dulu di PC tanpa mempengaruhi situs asli:
 
 ```powershell
 cd C:\Users\noegr\shaku-web
 npm run dev
 ```
 
-Buka `http://localhost:4321` di browser. Itu situsnya. Tekan `Ctrl+C` di
-PowerShell untuk mematikannya.
+Buka `http://localhost:4321`. Tekan `Ctrl+C` untuk mematikannya. Yang ini
+hanya di PC ini, tidak terlihat orang lain.
 
 Yang sudah ada di dalamnya:
 
@@ -24,22 +32,21 @@ Yang sudah ada di dalamnya:
 - Tombol pesan yang membuka WhatsApp ke +62 882-0053-59524 dengan pesan
   yang sudah terisi nama produknya
 
-Situs ini masih berjalan **di PC ini saja**. Orang lain belum bisa membukanya.
-
 > **Catatan kecil tapi bikin bingung.** Saat `npm run dev`, panel admin harus
 > dibuka di `http://localhost:4321/admin/index.html` — pakai `/admin/` saja
-> akan 404. Ini cuma berlaku di mode `dev`. Di `npm run preview` dan di situs
-> aslinya nanti, `/admin/` normal.
+> akan 404. Ini cuma berlaku di mode `dev`. Di situs aslinya,
+> <https://shaku.id/admin/> normal.
 
 ---
 
-## Tiga hal yang belum beres
+## Yang belum beres, dan yang sudah
 
-Urutannya tidak wajib, tapi ini yang paling masuk akal.
+Tinggal satu hal yang benar-benar penting.
 
 ### 1. Ganti foto dan data produk asli
 
-Ini yang paling penting. Tanpa ini situsnya belum ada gunanya.
+Ini yang paling penting, dan sekarang satu-satunya yang menghalangi situs
+ini benar-benar dipakai jualan.
 
 Yang dibutuhkan per produk: foto, nama, harga, bentuk kuku, panjang, warna,
 jumlah kuku per set.
@@ -50,40 +57,46 @@ dikecilkan sendiri.
 
 Cara memasukkannya ada dua, dan **cukup pilih salah satu**:
 
-- **Lewat berkas di PC** — lihat `kelola-produk.md`. Tidak perlu GitHub,
-  tidak perlu internet. Ini yang paling cepat kalau Anda memang di depan PC.
-- **Lewat panel admin di browser** — perlu langkah nomor 2 di bawah dulu.
+- **Lewat panel admin di HP** — buka <https://shaku.id/admin/>. Ini yang
+  paling praktis sekarang, karena panel adminnya sudah menyala.
+- **Lewat berkas di PC** — lihat `kelola-produk.md`.
 
-### 2. Menyalakan panel admin (opsional)
+### 2. Akun Instagram dan TikTok (opsional)
 
-**Ini opsional.** Situs tetap jalan tanpa ini.
+Kolom `instagram` dan `tiktok` di `src/konfigurasi.ts` masih kosong.
+Selama kosong, tautannya otomatis tidak ditampilkan di footer.
 
-Gunanya cuma satu: supaya bisa menambah dan mengubah produk **dari HP**,
-tanpa membuka PC. Kalau Anda tidak keberatan selalu mengedit dari PC,
-lewati saja bagian ini.
+### 3. Panel admin — sudah menyala
 
-Harganya: perlu akun GitHub, dan setiap perubahan butuh 2–5 menit sampai
-muncul di situs. Caranya di `panel-admin.md`.
+Panel admin sudah bisa dipakai di <https://shaku.id/admin/>, dari HP
+sekalipun. Masuknya pakai token GitHub, bukan username dan kata sandi.
 
-**Tidak ada "user admin" yang perlu dibuat.** Tidak ada username dan kata
-sandi seperti WordPress, karena situs ini tanpa database. Kunci masuknya
-adalah akun GitHub Anda plus sebuah token yang dibuat di GitHub. Penjelasan
-lengkapnya di bagian paling atas `panel-admin.md`.
+**Tidak ada "user admin" yang perlu dibuat.** Situs ini tanpa database,
+jadi tidak ada tempat menyimpan user. Kunci masuknya adalah akun GitHub
+Anda plus token yang dibuat di GitHub. Penjelasan lengkapnya di bagian
+paling atas `panel-admin.md`.
 
-### 3. Menaikkan situs ke CCR2004
+Kalau tokennya hilang atau kedaluwarsa, buat baru dengan cara yang sama —
+tidak ada yang rusak.
 
-Supaya `shaku.id` bisa dibuka orang lain dari internet.
+### 4. Situs sudah online — tidak ada yang perlu dikerjakan lagi
 
-Domainnya sudah Anda beli di Exabytes. Yang belum: menjalankan container di
-router, dan mengarahkan DNS. Caranya di `deploy-ccr2004.md`.
+`shaku.id` sudah dilayani dari container di CCR2004, DNS sudah menunjuk ke
+IP publik router, dan sertifikat HTTPS-nya terbit otomatis. Container-nya
+disetel `start-on-boot`, jadi ikut hidup lagi sendiri setelah router mati
+listrik atau di-reboot.
 
-Anda sendiri yang minta ini ditunda, jadi belum saya kerjakan.
+Catatan yang perlu diterima apa adanya: kalau router mati, uplink putus,
+atau listrik padam, situsnya ikut mati. Itu konsekuensi hosting sendiri,
+bukan kesalahan konfigurasi.
+
+Rinciannya di `deploy-ccr2004.md`.
 
 ---
 
 ## Kalau bingung, kerjakan ini saja
 
-1. `npm run dev`, buka `http://localhost:4321`, lihat situsnya.
+1. Buka <https://shaku.id> dari HP, lihat situsnya.
 2. Catat apa yang mau diubah — tulisan, warna, susunan, apa pun.
 3. Siapkan foto produk asli di satu folder.
 
