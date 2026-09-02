@@ -1,16 +1,19 @@
 ---
-nama: "French Tip"
-harga: 80000
-bentuk: "square"
-panjang: "pendek"
-warna: ["putih", "bening"]
-jumlahKuku: 24
+nama: French Tip
+ringkasan: French manicure ujung putih, potongan pendek dan rapi. Klasik yang selalu laku.
 foto:
-  - "@assets/produk/french-square.jpg"
+  - '@assets/produk/french-square.jpg'
+harga: 90000
+hargaCoret: null
+bentuk: square
+panjang: pendek
+warna:
+  - putih
+  - bening
+jumlahKuku: 24
 tersedia: true
 unggulan: true
 urutan: 30
-ringkasan: "French manicure ujung putih, potongan pendek dan rapi. Klasik yang selalu laku."
 ---
 
 Model french manicure dengan ujung putih tegas di atas dasar bening kemerahan.
