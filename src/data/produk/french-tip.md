@@ -2,7 +2,7 @@
 nama: French Tip
 ringkasan: French manicure ujung putih, potongan pendek dan rapi. Klasik yang selalu laku.
 foto:
-  - '@assets/produk/french-square.jpg'
+  - '@assets/produk/Screenshot 2026-09-02 113512.png'
 harga: 90000
 hargaCoret: null
 bentuk: square
