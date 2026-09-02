@@ -1,0 +1,191 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import KartuProduk from '../../components/KartuProduk.astro';
+import { SITUS, formatRupiah, pesanProduk, tautanWhatsApp } from '../../konfigurasi';
+
+export const getStaticPaths = (async () => {
+  const produk = await getCollection('produk');
+  return produk.map((p) => ({ params: { id: p.id }, props: { produk: p } }));
+}) satisfies GetStaticPaths;
+
+const { produk } = Astro.props;
+const { Content } = await render(produk);
+const d = produk.data;
+
+const diskon =
+  d.hargaCoret && d.hargaCoret > d.harga
+    ? Math.round(((d.hargaCoret - d.harga) / d.hargaCoret) * 100)
+    : 0;
+
+const waPesan = tautanWhatsApp(pesanProduk(d.nama, d.harga));
+
+// Produk lain untuk bagian rekomendasi di bawah.
+const lainnya = (await getCollection('produk'))
+  .filter((p) => p.id !== produk.id && p.data.tersedia)
+  .sort((a, b) => a.data.urutan - b.data.urutan)
+  .slice(0, 4);
+
+// Data terstruktur supaya produk terbaca mesin pencari.
+const skema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: d.nama,
+  description: d.ringkasan,
+  brand: { '@type': 'Brand', name: SITUS.nama },
+  offers: {
+    '@type': 'Offer',
+    price: d.harga,
+    priceCurrency: 'IDR',
+    availability: d.tersedia
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    url: new URL(`/katalog/${produk.id}/`, SITUS.domain).href,
+  },
+};
+---
+
+<Layout judul={d.nama} deskripsi={d.ringkasan}>
+  <script
+    type="application/ld+json"
+    slot="kepala"
+    set:html={JSON.stringify(skema)}
+  />
+
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <nav class="text-xs text-teks-redup" aria-label="Remah roti">
+      <a href="/" class="hover:text-aksen">Beranda</a>
+      <span class="mx-2">/</span>
+      <a href="/katalog/" class="hover:text-aksen">Katalog</a>
+      <span class="mx-2">/</span>
+      <span class="text-teks">{d.nama}</span>
+    </nav>
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-2">
+      <!-- Galeri foto -->
+      <div class="space-y-3">
+        <div class="overflow-hidden rounded-2xl border border-garis bg-latar-2">
+          <Image
+            src={d.foto[0]}
+            alt={`Press-on nail ${d.nama}`}
+            widths={[480, 768, 1000]}
+            sizes="(max-width: 1024px) 100vw, 560px"
+            loading="eager"
+            class="w-full object-cover"
+          />
+        </div>
+
+        {
+          d.foto.length > 1 && (
+            <div class="grid grid-cols-4 gap-3">
+              {d.foto.slice(1).map((f, i) => (
+                <Image
+                  src={f}
+                  alt={`${d.nama} foto ${i + 2}`}
+                  widths={[200, 320]}
+                  sizes="120px"
+                  loading="lazy"
+                  class="aspect-square w-full rounded-lg border border-garis object-cover"
+                />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Keterangan -->
+      <div>
+        <h1 class="judul text-5xl sm:text-6xl">{d.nama}</h1>
+
+        <div class="mt-5 flex flex-wrap items-baseline gap-3">
+          <span class="text-3xl font-semibold text-teks">{formatRupiah(d.harga)}</span>
+          {
+            diskon > 0 && (
+              <>
+                <span class="text-sm text-teks-redup line-through">
+                  {formatRupiah(d.hargaCoret!)}
+                </span>
+                <span class="rounded-full bg-aksen px-2.5 py-1 text-xs font-bold text-di-aksen">
+                  Hemat {diskon}%
+                </span>
+              </>
+            )
+          }
+        </div>
+
+        <dl class="mt-8 grid grid-cols-2 gap-4 border-y border-garis py-6 text-sm">
+          <div>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">Bentuk</dt>
+            <dd class="mt-1 text-teks capitalize">{d.bentuk}</dd>
+          </div>
+          <div>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">Panjang</dt>
+            <dd class="mt-1 text-teks capitalize">{d.panjang}</dd>
+          </div>
+          <div>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">Isi</dt>
+            <dd class="mt-1 text-teks">{d.jumlahKuku} keping</dd>
+          </div>
+          <div>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">Warna</dt>
+            <dd class="mt-1 text-teks capitalize">{d.warna.join(', ')}</dd>
+          </div>
+        </dl>
+
+        {
+          d.tersedia ? (
+            <a
+              href={waPesan}
+              rel="noopener"
+              class="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-aksen px-8 py-4 text-sm font-semibold text-di-aksen transition hover:bg-aksen-terang"
+            >
+              Pesan via WhatsApp
+            </a>
+          ) : (
+            <div class="mt-8 rounded-2xl border border-garis bg-latar-2 p-5 text-center">
+              <p class="text-sm font-semibold text-teks">Stok sedang habis</p>
+              <p class="mt-2 text-xs text-teks-redup">
+                Chat kami untuk ditandai saat restok tiba.
+              </p>
+              <a
+                href={tautanWhatsApp(
+                  `Halo ${SITUS.nama}, tolong kabari kalau "${d.nama}" sudah restok.`,
+                )}
+                rel="noopener"
+                class="mt-4 inline-block rounded-full border border-garis px-6 py-2.5 text-sm font-semibold text-teks transition hover:border-aksen hover:text-aksen"
+              >
+                Kabari saat restok
+              </a>
+            </div>
+          )
+        }
+
+        <div class="konten-kaya mt-10 text-sm leading-relaxed text-teks-redup">
+          <Content />
+        </div>
+
+        <p class="mt-8 text-xs text-teks-redup">
+          Belum yakin ukurannya?
+          <a href="/cara-pesan/" class="text-aksen hover:underline">
+            Lihat panduan ukuran dan cara pesan.
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    lainnya.length > 0 && (
+      <section class="mx-auto max-w-6xl px-4 py-16">
+        <h2 class="judul text-3xl sm:text-4xl">Desain lainnya</h2>
+        <div class="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+          {lainnya.map((p) => (
+            <KartuProduk produk={p} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</Layout>

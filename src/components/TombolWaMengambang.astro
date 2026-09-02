@@ -1,0 +1,19 @@
+---
+import { SITUS, tautanWhatsApp } from '../konfigurasi';
+
+const tautan = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`);
+---
+
+<a
+  href={tautan}
+  rel="noopener"
+  aria-label="Chat WhatsApp"
+  class="fixed right-4 bottom-4 z-40 inline-flex items-center gap-2 rounded-full bg-aksen px-5 py-3 text-sm font-semibold text-di-aksen shadow-lg shadow-aksen/25 transition hover:bg-aksen-terang"
+>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path
+      d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.24h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.32-1.94 1.36-.5.04-.96.22-3.24-.68-2.74-1.08-4.46-3.88-4.6-4.06-.14-.18-1.1-1.46-1.1-2.78 0-1.32.7-1.98.94-2.24.24-.26.52-.32.7-.32h.5c.16 0 .38-.06.6.46.22.54.76 1.86.82 2 .06.14.1.3.02.48-.08.18-.12.3-.24.46l-.36.42c-.12.12-.24.26-.1.5.14.24.62 1.02 1.32 1.64.9.8 1.66 1.06 1.9 1.18.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26Z"
+    ></path>
+  </svg>
+  Pesan
+</a>

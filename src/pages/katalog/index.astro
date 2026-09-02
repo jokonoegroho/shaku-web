@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import KartuProduk from '../../components/KartuProduk.astro';
+
+const produk = (await getCollection('produk')).sort(
+  (a, b) => a.data.urutan - b.data.urutan,
+);
+
+// Daftar filter dibangun dari data, bukan ditulis manual,
+// supaya otomatis ikut bertambah saat produk baru masuk.
+const bentukTersedia = [...new Set(produk.map((p) => p.data.bentuk))].sort();
+const panjangUrut = ['pendek', 'sedang', 'panjang'];
+const panjangTersedia = panjangUrut.filter((p) =>
+  produk.some((x) => x.data.panjang === p),
+);
+---
+
+<Layout
+  judul="Katalog"
+  deskripsi="Semua desain press-on nail yang tersedia. Saring berdasarkan bentuk dan panjang kuku."
+>
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <h1 class="judul text-5xl sm:text-6xl">Katalog</h1>
+    <p class="mt-3 text-sm text-teks-redup">
+      <span id="jumlah-tampil">{produk.length}</span> desain tersedia.
+    </p>
+
+    <!-- Filter: murni di sisi pengunjung, tanpa muat ulang halaman. -->
+    <div class="mt-8 space-y-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">Bentuk</span>
+        <button type="button" data-jenis="bentuk" data-nilai="semua" class="tombol-filter aktif">
+          Semua
+        </button>
+        {
+          bentukTersedia.map((b) => (
+            <button type="button" data-jenis="bentuk" data-nilai={b} class="tombol-filter capitalize">
+              {b}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">Panjang</span>
+        <button type="button" data-jenis="panjang" data-nilai="semua" class="tombol-filter aktif">
+          Semua
+        </button>
+        {
+          panjangTersedia.map((p) => (
+            <button type="button" data-jenis="panjang" data-nilai={p} class="tombol-filter capitalize">
+              {p}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div id="grid-produk" class="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+      {produk.map((p, i) => <KartuProduk produk={p} prioritas={i < 4} />)}
+    </div>
+
+    <p id="pesan-kosong" class="mt-12 hidden text-center text-sm text-teks-redup">
+      Tidak ada desain yang cocok dengan pilihan itu.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .tombol-filter {
+    border: 1px solid var(--color-garis);
+    border-radius: 9999px;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem;
+    color: var(--color-teks-redup);
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+  .tombol-filter:hover {
+    color: var(--color-teks);
+    border-color: var(--color-aksen);
+  }
+  .tombol-filter.aktif {
+    background: var(--color-aksen);
+    border-color: var(--color-aksen);
+    color: var(--color-di-aksen);
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const pilihan: Record<'bentuk' | 'panjang', string> = {
+    bentuk: 'semua',
+    panjang: 'semua',
+  };
+
+  const grid = document.getElementById('grid-produk');
+  const pesanKosong = document.getElementById('pesan-kosong');
+  const jumlahTampil = document.getElementById('jumlah-tampil');
+  const kartu = Array.from(grid?.children ?? []) as HTMLElement[];
+
+  function terapkan() {
+    let tampil = 0;
+
+    for (const el of kartu) {
+      const cocok =
+        (pilihan.bentuk === 'semua' || el.dataset.bentuk === pilihan.bentuk) &&
+        (pilihan.panjang === 'semua' || el.dataset.panjang === pilihan.panjang);
+
+      el.classList.toggle('hidden', !cocok);
+      if (cocok) tampil++;
+    }
+
+    pesanKosong?.classList.toggle('hidden', tampil > 0);
+    if (jumlahTampil) jumlahTampil.textContent = String(tampil);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.tombol-filter').forEach((tombol) => {
+    tombol.addEventListener('click', () => {
+      const jenis = tombol.dataset.jenis as 'bentuk' | 'panjang';
+      pilihan[jenis] = tombol.dataset.nilai ?? 'semua';
+
+      document
+        .querySelectorAll<HTMLButtonElement>(`.tombol-filter[data-jenis="${jenis}"]`)
+        .forEach((t) => t.classList.toggle('aktif', t === tombol));
+
+      terapkan();
+    });
+  });
+</script>

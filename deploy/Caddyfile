@@ -1,0 +1,110 @@
+# Konfigurasi Caddy — beberapa situs, satu IP publik
+#
+# Pemisahan situs terjadi di lapisan HTTP: Host header untuk HTTP,
+# SNI untuk HTTPS. Jadi semua domain di bawah ini boleh memakai
+# IP publik, port, dan container yang sama.
+#
+# Menambah situs baru = tambah blok domain di bawah + buat foldernya
+# di /srv. Tidak perlu veth baru, tidak perlu dst-nat baru.
+#
+# Sertifikat HTTPS diambil otomatis per domain lewat Let's Encrypt.
+# Syarat: port 80 DAN 443 diarahkan ke container ini, dan DNS domain
+# tersebut sudah menunjuk ke IP publik CCR2004.
+{
+	# Isi email agar dapat pemberitahuan sebelum sertifikat kedaluwarsa.
+	# email admin@shaku.id
+
+	# Matikan antarmuka admin Caddy; tidak dibutuhkan dan menghemat memori.
+	admin off
+}
+
+# ---------------------------------------------------------------
+# Pengaturan bersama, dipakai ulang oleh setiap situs statis.
+# Argumen {args[0]} diisi nama folder situs di dalam /srv.
+# ---------------------------------------------------------------
+(situs_statis) {
+	root * /srv/{args[0]}
+	encode zstd gzip
+	file_server
+
+	# Berkas dengan hash di namanya aman di-cache selamanya.
+	@aset path /_astro/* /assets/*
+	header @aset Cache-Control "public, max-age=31536000, immutable"
+
+	# Halaman HTML cukup satu jam, supaya perubahan cepat terlihat.
+	@html path *.html /
+	header @html Cache-Control "public, max-age=3600"
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	handle_errors {
+		@notfound expression {err.status_code} == 404
+		rewrite @notfound /404.html
+		file_server
+	}
+
+	# Log terpisah per situs agar mudah ditelusuri.
+	log {
+		output file /data/log/{args[0]}.log {
+			roll_size 5MiB
+			roll_keep 2
+		}
+	}
+}
+
+# ---------------------------------------------------------------
+# SITUS 1 — shaku.id
+# Berkas ada di /srv/shaku (di USB: usb1/situs/web/shaku)
+# ---------------------------------------------------------------
+shaku.id {
+	import situs_statis shaku
+}
+
+# www dialihkan ke domain utama supaya isi situs tidak terindeks ganda.
+www.shaku.id {
+	redir https://shaku.id{uri} permanent
+}
+
+# ---------------------------------------------------------------
+# SITUS 2 dan seterusnya — hapus tanda pagar dan ganti nama domain
+# saat domain berikutnya sudah siap.
+#
+# Langkah menambah situs baru:
+#   1. Buat folder usb1/situs/web/<nama> di USB, isi dengan berkas situsnya
+#   2. Arahkan A record domain itu ke IP publik CCR2004
+#   3. Aktifkan blok di bawah, sesuaikan domain dan nama foldernya
+#   4. /container/stop lalu /container/start
+# ---------------------------------------------------------------
+
+# domain-kedua.com {
+# 	import situs_statis domain-kedua
+# }
+#
+# www.domain-kedua.com {
+# 	redir https://domain-kedua.com{uri} permanent
+# }
+
+# ---------------------------------------------------------------
+# Contoh bila suatu saat ada situs yang butuh backend hidup
+# (PHP, Node, dan sebagainya) di container terpisah.
+#
+# Caddy hanya meneruskan; aplikasinya jalan di container lain
+# dengan veth dan IP internal sendiri.
+# ---------------------------------------------------------------
+
+# app.domain-kedua.com {
+# 	reverse_proxy 172.20.0.3:3000
+# }
+
+# ---------------------------------------------------------------
+# Penampung untuk permintaan yang datang tanpa nama domain yang
+# dikenal — misalnya pemindai yang menembak langsung ke IP publik.
+# Dijawab 404 kosong supaya tidak membocorkan situs mana pun.
+# ---------------------------------------------------------------
+:80 {
+	respond 404
+}

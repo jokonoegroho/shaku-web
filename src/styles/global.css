@@ -1,0 +1,90 @@
+@import "tailwindcss";
+/* Font di-host sendiri (bukan dari CDN) supaya situs tetap utuh
+   walau pengunjung tidak bisa menjangkau server pihak ketiga. */
+@import "@fontsource-variable/inter";
+@import "@fontsource/bebas-neue";
+
+/*
+  Tema gelap Shaku: latar mendekati hitam, aksen pink panas,
+  tipografi tebal untuk judul. Semua warna didefinisikan sekali di sini
+  supaya ganti tema cukup di satu tempat.
+*/
+@theme {
+  --color-latar: #0a0a0b;
+  --color-latar-2: #131316;
+  --color-latar-3: #1c1c21;
+  --color-garis: #2a2a31;
+  --color-teks: #f5f5f7;
+  --color-teks-redup: #a1a1aa;
+  --color-aksen: #e8879b;
+  --color-aksen-terang: #f2a5b5;
+  /* Teks di atas warna aksen; rose pastel butuh teks gelap agar terbaca. */
+  --color-di-aksen: #2a0a10;
+  --color-emas: #f0c9a0;
+
+  --font-judul: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
+  --font-badan: "Inter Variable", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-latar);
+}
+
+body {
+  background-color: var(--color-latar);
+  color: var(--color-teks);
+  font-family: var(--font-badan);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Judul bergaya bold-condensed, ciri khas tampilan katalog kuku. */
+.judul {
+  font-family: var(--font-judul);
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* Hormati preferensi pengguna yang tidak nyaman dengan animasi. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: var(--color-aksen);
+  color: var(--color-di-aksen);
+}
+
+/* Gaya untuk isi Markdown (deskripsi produk, halaman statis). */
+.konten-kaya p {
+  margin-block: 0.85rem;
+}
+.konten-kaya strong {
+  color: var(--color-teks);
+  font-weight: 600;
+}
+.konten-kaya ul,
+.konten-kaya ol {
+  margin-block: 0.85rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.konten-kaya ol {
+  list-style: decimal;
+}
+.konten-kaya li {
+  margin-block: 0.35rem;
+}
+.konten-kaya a {
+  color: var(--color-aksen);
+  text-decoration: underline;
+}

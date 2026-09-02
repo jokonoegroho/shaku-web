@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Kelola Produk SHA.KU</title>
+    <link rel="icon" href="/favicon-32.png" />
+    <style>
+      /* Pemberitahuan bila config.yml belum diisi nama repo GitHub. */
+      #peringatan-setelan {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        padding: 2rem 1.25rem;
+        background: #14090c;
+        color: #f5e9ec;
+        font: 16px/1.6 system-ui, sans-serif;
+      }
+      #peringatan-setelan div {
+        max-width: 34rem;
+        margin: 12vh auto 0;
+      }
+      #peringatan-setelan h1 {
+        font-size: 1.35rem;
+        margin: 0 0 0.75rem;
+      }
+      #peringatan-setelan code {
+        background: #2a0a10;
+        padding: 0.15em 0.4em;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="peringatan-setelan">
+      <div>
+        <h1>Panel admin belum disetel</h1>
+        <p>
+          Berkas <code>public/admin/config.yml</code> masih memakai nama repo
+          contoh. Ganti baris <code>repo:</code> dengan
+          <code>nama-akun-github/shaku-web</code> milik Anda, lalu build ulang.
+        </p>
+        <p>Langkah lengkapnya ada di <code>docs/panel-admin.md</code>.</p>
+      </div>
+    </div>
+
+    <script>
+      // Cek dulu sebelum CMS dipakai, supaya pesannya jelas dalam bahasa
+      // Indonesia ketimbang error mentah soal repo tidak ditemukan.
+      fetch('/admin/config.yml')
+        .then((r) => r.text())
+        .then((t) => {
+          if (t.includes('GANTI-AKUN-GITHUB')) {
+            document.getElementById('peringatan-setelan').style.display = 'block';
+          }
+        })
+        .catch(() => {});
+    </script>
+    <script src="/admin/sveltia-cms.js"></script>
+  </body>
+</html>

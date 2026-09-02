@@ -1,0 +1,130 @@
+# Konfigurasi panel admin (Sveltia CMS)
+#
+# Panel ini dibuka di https://shaku.id/admin/ dan menyimpan perubahan
+# langsung sebagai commit ke repo GitHub. Setelah commit masuk, GitHub
+# Actions membangun ulang situs secara otomatis.
+#
+# ============================================================
+# WAJIB DIGANTI: baris "repo" di bawah harus diisi nama akun
+# GitHub Anda, contoh: budi-nailart/shaku-web
+# ============================================================
+
+backend:
+  name: github
+  repo: jokonoegroho/shaku-web
+  branch: main
+  # Masuk pakai token GitHub, bukan tombol "Login with GitHub".
+  # Sengaja begitu: cara ini tidak butuh server perantara sama sekali.
+  auth_methods: [token]
+  commit_messages:
+    create: 'Tambah produk {{slug}}'
+    update: 'Ubah produk {{slug}}'
+    delete: 'Hapus produk {{slug}}'
+    uploadMedia: 'Tambah foto {{path}}'
+    deleteMedia: 'Hapus foto {{path}}'
+
+# Foto diunggah ke folder aslinya supaya tetap diproses (dikecilkan dan
+# dikonversi ke WebP) oleh Astro saat build. Jangan diarahkan ke public/.
+media_folder: /src/assets/produk
+# Jalur yang ditulis ke dalam berkas produk. Sveltia mewajibkan jalur absolut
+# atau alias berawalan "@"; alias @assets sudah didaftarkan di astro.config.mjs
+# dan tsconfig.json, jadi Astro tetap bisa memproses fotonya.
+public_folder: '@assets/produk'
+
+collections:
+  - name: produk
+    label: Produk
+    label_singular: Produk
+    description: >-
+      Setiap produk di sini menjadi satu halaman di katalog. Perubahan baru
+      muncul di situs beberapa menit setelah disimpan.
+    folder: src/data/produk
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}} — Rp {{harga}}'
+    sortable_fields: [urutan, nama, harga]
+    view_groups:
+      - label: Bentuk
+        field: bentuk
+    fields:
+      - label: Nama produk
+        name: nama
+        widget: string
+        hint: Dipakai juga untuk alamat halaman. Hindari mengubahnya setelah dipublikasikan.
+
+      - label: Ringkasan singkat
+        name: ringkasan
+        widget: string
+        hint: Satu kalimat, maksimal 160 huruf. Tampil di kartu katalog dan hasil pencarian Google.
+        pattern: ['^.{1,160}$', 'Maksimal 160 huruf.']
+
+      - label: Foto produk
+        name: foto
+        widget: image
+        multiple: true
+        min: 1
+        hint: Foto pertama dipakai sebagai gambar utama di katalog.
+
+      - label: Harga (Rupiah)
+        name: harga
+        widget: number
+        value_type: int
+        min: 0
+        hint: Tulis angka saja tanpa titik, contoh 85000.
+
+      - label: Harga coret
+        name: hargaCoret
+        widget: number
+        value_type: int
+        min: 0
+        required: false
+        hint: Isi hanya bila sedang diskon. Kosongkan bila tidak.
+
+      - label: Bentuk kuku
+        name: bentuk
+        widget: select
+        options: [almond, coffin, square, stiletto, oval, round]
+
+      - label: Panjang kuku
+        name: panjang
+        widget: select
+        options: [pendek, sedang, panjang]
+
+      - label: Warna
+        name: warna
+        widget: list
+        min: 1
+        hint: Dipakai untuk penyaringan katalog. Contoh, merah lalu glossy.
+
+      - label: Jumlah keping per set
+        name: jumlahKuku
+        widget: number
+        value_type: int
+        min: 1
+        default: 24
+
+      - label: Stok tersedia
+        name: tersedia
+        widget: boolean
+        default: true
+        hint: Matikan bila stok habis. Produk tetap tampil tapi tidak bisa dipesan.
+
+      - label: Tampilkan di beranda
+        name: unggulan
+        widget: boolean
+        default: false
+
+      - label: Urutan tampil
+        name: urutan
+        widget: number
+        value_type: int
+        default: 100
+        hint: Angka lebih kecil tampil lebih dulu di katalog.
+
+      - label: Keterangan lengkap
+        name: body
+        widget: markdown
+        hint: Penjelasan panjang yang tampil di halaman produk, termasuk isi paket.

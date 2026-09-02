@@ -1,0 +1,60 @@
+name: Bangun dan terbitkan situs
+
+# Berjalan otomatis setiap ada perubahan di branch main — termasuk perubahan
+# yang dibuat lewat panel admin di /admin/, karena panel itu menyimpan
+# datanya sebagai commit ke repo ini.
+#
+# Hasil build ditaruh di branch "terbit" berisi berkas situs siap pakai.
+# Server di CCR2004 tinggal menarik branch itu.
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Cukup satu proses terbit berjalan; kalau ada perubahan beruntun, yang lama
+# dibatalkan supaya tidak saling menimpa.
+concurrency:
+  group: terbit
+  cancel-in-progress: true
+
+jobs:
+  bangun:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ambil kode
+        uses: actions/checkout@v4
+
+      - name: Siapkan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Pasang dependensi
+        run: npm ci
+
+      - name: Build situs
+        run: npm run build
+
+      - name: Pastikan hasil build tidak kosong
+        run: test -f dist/index.html
+
+      - name: Terbitkan ke branch "terbit"
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd dist
+          git init -b terbit
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Hasil build dari ${GITHUB_SHA:0:7}"
+          git push --force \
+            "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" terbit
