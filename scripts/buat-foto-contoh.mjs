@@ -7,13 +7,16 @@ import { join } from 'node:path';
 const keluaran = join(process.cwd(), 'src', 'assets', 'produk');
 mkdirSync(keluaran, { recursive: true });
 
+// Warna contoh disamakan dengan tema linen + burgundi. Nuansanya sengaja
+// lembut agar kartu produk yang belum ada foto aslinya tidak terlihat
+// mencolok di antara foto asli.
 const daftar = [
-  { berkas: 'ruby-almond', label: 'RUBY GLOSS', c1: '#7f1030', c2: '#ff2d78' },
-  { berkas: 'nude-coffin', label: 'NUDE CLASSIC', c1: '#5a4438', c2: '#d9a684' },
-  { berkas: 'french-square', label: 'FRENCH TIP', c1: '#2b2b33', c2: '#e9e4dd' },
-  { berkas: 'noir-stiletto', label: 'NOIR MATTE', c1: '#101014', c2: '#3d3d47' },
-  { berkas: 'pearl-oval', label: 'PEARL MILK', c1: '#4a4a5c', c2: '#cfd4e6' },
-  { berkas: 'sakura-round', label: 'SAKURA POP', c1: '#6d2350', c2: '#ff9ec4' },
+  { berkas: 'ruby-almond', label: 'RUBY GLOSS', c1: '#c9a29a', c2: '#e8d6cc' },
+  { berkas: 'nude-coffin', label: 'NUDE CLASSIC', c1: '#c8a488', c2: '#ecdcc9' },
+  { berkas: 'french-square', label: 'FRENCH TIP', c1: '#d6cec6', c2: '#f2ece5' },
+  { berkas: 'noir-stiletto', label: 'NOIR MATTE', c1: '#b6aaa6', c2: '#ddd4cf' },
+  { berkas: 'pearl-oval', label: 'PEARL MILK', c1: '#c4c2c8', c2: '#ece9ea' },
+  { berkas: 'sakura-round', label: 'SAKURA POP', c1: '#d3a9ae', c2: '#f0dcdc' },
 ];
 
 const LEBAR = 1000;
@@ -27,12 +30,12 @@ for (const item of daftar) {
       <stop offset="100%" stop-color="${item.c2}"/>
     </linearGradient>
   </defs>
-  <rect width="100%" height="100%" fill="#0a0a0b"/>
+  <rect width="100%" height="100%" fill="#faf7f3"/>
   <rect x="60" y="60" width="${LEBAR - 120}" height="${TINGGI - 120}" rx="48" fill="url(#g)"/>
   <text x="50%" y="47%" text-anchor="middle" font-family="Arial, sans-serif"
-        font-size="76" font-weight="bold" fill="#ffffff" letter-spacing="4">${item.label}</text>
+        font-size="76" font-weight="bold" fill="#4c0c0c" letter-spacing="4">${item.label}</text>
   <text x="50%" y="55%" text-anchor="middle" font-family="Arial, sans-serif"
-        font-size="34" fill="#ffffff" opacity="0.75" letter-spacing="6">FOTO CONTOH</text>
+        font-size="34" fill="#4c0c0c" opacity="0.7" letter-spacing="6">FOTO CONTOH</text>
 </svg>`;
 
   const tujuan = join(keluaran, `${item.berkas}.jpg`);

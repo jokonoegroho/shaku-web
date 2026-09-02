@@ -5,22 +5,23 @@
 @import "@fontsource/bebas-neue";
 
 /*
-  Tema gelap Shaku: latar mendekati hitam, aksen pink panas,
-  tipografi tebal untuk judul. Semua warna didefinisikan sekali di sini
-  supaya ganti tema cukup di satu tempat.
+  Tema linen Shaku: latar krem bersih, aksen burgundi yang diambil langsung
+  dari tulisan SHA.KU di logo (#4c0c0c). Semua warna didefinisikan sekali di
+  sini supaya ganti tema cukup di satu tempat.
 */
 @theme {
-  --color-latar: #0a0a0b;
-  --color-latar-2: #131316;
-  --color-latar-3: #1c1c21;
-  --color-garis: #2a2a31;
-  --color-teks: #f5f5f7;
-  --color-teks-redup: #a1a1aa;
-  --color-aksen: #e8879b;
-  --color-aksen-terang: #f2a5b5;
-  /* Teks di atas warna aksen; rose pastel butuh teks gelap agar terbaca. */
-  --color-di-aksen: #2a0a10;
-  --color-emas: #f0c9a0;
+  --color-latar: #faf7f3;
+  --color-latar-2: #f3ece4;
+  --color-latar-3: #ebe0d5;
+  --color-garis: #ddcfc0;
+  --color-teks: #2b1a19;
+  --color-teks-redup: #6d5a56;
+  --color-aksen: #4c0c0c;
+  /* Dipakai untuk hover tombol; sedikit lebih terang agar terasa mengangkat. */
+  --color-aksen-terang: #6e1a1a;
+  /* Teks di atas warna aksen; burgundi gelap butuh teks terang agar terbaca. */
+  --color-di-aksen: #faf7f3;
+  --color-emas: #96683c;
 
   --font-judul: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
   --font-badan: "Inter Variable", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;

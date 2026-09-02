@@ -12,9 +12,9 @@ mkdirSync(publik, { recursive: true });
 await sharp(logo).resize(32, 32).png().toFile(join(publik, 'favicon-32.png'));
 await sharp(logo).resize(180, 180).png().toFile(join(publik, 'apple-touch-icon.png'));
 
-// Gambar pratinjau saat tautan dibagikan: logo di tengah latar gelap situs.
+// Gambar pratinjau saat tautan dibagikan: logo di tengah latar linen situs.
 const latar = await sharp({
-  create: { width: 1200, height: 630, channels: 3, background: '#0a0a0b' },
+  create: { width: 1200, height: 630, channels: 3, background: '#faf7f3' },
 })
   .png()
   .toBuffer();
@@ -23,11 +23,11 @@ const logoBulat = await sharp(logo).resize(440, 440).png().toBuffer();
 
 const teks = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
   <text x="700" y="290" font-family="Arial, sans-serif" font-size="96"
-        font-weight="bold" fill="#f5f5f7" letter-spacing="4">SHA.KU</text>
+        font-weight="bold" fill="#2b1a19" letter-spacing="4">SHA.KU</text>
   <text x="704" y="345" font-family="Arial, sans-serif" font-size="28"
-        fill="#e8879b" letter-spacing="4">By.Gorgeousblom.nailart</text>
+        fill="#4c0c0c" letter-spacing="4">By.Gorgeousblom.nailart</text>
   <text x="704" y="410" font-family="Arial, sans-serif" font-size="30"
-        fill="#a1a1aa">Press-on nail siap pakai.</text>
+        fill="#6d5a56">Press-on nail siap pakai.</text>
 </svg>`;
 
 await sharp(latar)
