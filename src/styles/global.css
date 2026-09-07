@@ -1,8 +1,8 @@
 @import "tailwindcss";
 /* Font di-host sendiri (bukan dari CDN) supaya situs tetap utuh
    walau pengunjung tidak bisa menjangkau server pihak ketiga. */
-@import "@fontsource-variable/inter";
-@import "@fontsource/bebas-neue";
+@import "@fontsource-variable/cinzel";
+@import "@fontsource-variable/bodoni-moda";
 
 /*
   Tema linen Shaku: latar krem bersih, aksen burgundi yang diambil langsung
@@ -23,8 +23,8 @@
   --color-di-aksen: #faf7f3;
   --color-emas: #96683c;
 
-  --font-judul: "Bebas Neue", "Arial Narrow", Impact, sans-serif;
-  --font-badan: "Inter Variable", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-judul: "Cinzel Variable", "Times New Roman", Georgia, serif;
+  --font-badan: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -36,15 +36,19 @@ body {
   background-color: var(--color-latar);
   color: var(--color-teks);
   font-family: var(--font-badan);
+  /* Bodoni bergaris rambut tipis; 450 menahan teks kecil agar tidak pudar
+     di layar HP. */
+  font-weight: 450;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Judul bergaya bold-condensed, ciri khas tampilan katalog kuku. */
+/* Judul serif klasik Cinzel. Dibiarkan huruf campur (bukan kapital semua)
+   supaya terkesan anggun, bukan berteriak seperti tema condensed lama. */
 .judul {
   font-family: var(--font-judul);
+  font-weight: 500;
   letter-spacing: 0.02em;
-  line-height: 0.95;
-  text-transform: uppercase;
+  line-height: 1.15;
 }
 
 /* Hormati preferensi pengguna yang tidak nyaman dengan animasi. */

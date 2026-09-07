@@ -97,7 +97,7 @@ const skema = {
 
       <!-- Keterangan -->
       <div>
-        <h1 class="judul text-5xl sm:text-6xl">{d.nama}</h1>
+        <h1 class="judul text-3xl sm:text-5xl">{d.nama}</h1>
 
         <div class="mt-5 flex flex-wrap items-baseline gap-3">
           <span class="text-3xl font-semibold text-teks">{formatRupiah(d.harga)}</span>
@@ -179,7 +179,7 @@ const skema = {
   {
     lainnya.length > 0 && (
       <section class="mx-auto max-w-6xl px-4 py-16">
-        <h2 class="judul text-3xl sm:text-4xl">Desain lainnya</h2>
+        <h2 class="judul text-2xl sm:text-3xl">Desain lainnya</h2>
         <div class="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {lainnya.map((p) => (
             <KartuProduk produk={p} />
