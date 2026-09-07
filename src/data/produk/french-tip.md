@@ -1,6 +1,6 @@
 ---
 nama: French Tip
-ringkasan: French manicure ujung putih, potongan pendek dan rapi. Klasik yang selalu laku.
+ringkasan: desain simple dengan perpaduan warna chrome gold serta asesoris
 foto:
   - '@assets/produk/Screenshot 2026-09-02 114110.png'
 harga: 90000
