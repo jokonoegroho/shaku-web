@@ -54,13 +54,13 @@ const keunggulan = [
       class="max-h-[220px] w-full object-cover object-center sm:max-h-[320px] lg:max-h-[380px]"
     />
 
-    <div class="mx-auto max-w-3xl px-4 py-10 sm:py-14">
+    <div class="mx-auto max-w-3xl px-4 py-6 sm:py-9">
       <!-- Ukuran ikut lebar layar dengan clamp supaya judul selalu muat satu baris. -->
-      <h1 class="judul text-center text-[clamp(1.15rem,5.4vw,3rem)] whitespace-nowrap">
+      <h1 class="judul text-[clamp(1.15rem,5.4vw,3rem)] whitespace-nowrap">
         Kuku cantik <span class="text-aksen">tanpa ke salon.</span>
       </h1>
 
-      <div class="mt-5 text-base leading-relaxed text-teks-redup">
+      <div class="mt-4 text-center text-base leading-relaxed text-teks-redup">
         <p>
           <span class="block text-xl font-semibold text-aksen sm:text-2xl">
             Sha.ku one of one
@@ -71,7 +71,7 @@ const keunggulan = [
         </p>
       </div>
 
-      <div class="mt-7 flex flex-wrap gap-3">
+      <div class="mt-5 flex flex-wrap gap-3">
         <a
           href="/katalog/"
           class="rounded-full bg-aksen px-7 py-3 text-sm font-semibold text-di-aksen transition hover:bg-aksen-terang"
@@ -90,7 +90,7 @@ const keunggulan = [
   </section>
 
   <!-- Produk unggulan -->
-  <section class="mx-auto max-w-6xl px-4 py-20">
+  <section class="mx-auto max-w-6xl px-4 pt-8 pb-16">
     <div class="flex items-end justify-between gap-4">
       <h2 class="judul text-3xl sm:text-4xl">Paling dicari</h2>
       <a href="/katalog/" class="text-sm font-medium text-aksen hover:underline">
@@ -98,7 +98,7 @@ const keunggulan = [
       </a>
     </div>
 
-    <div class="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+    <div class="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
       {unggulan.map((p, i) => <KartuProduk produk={p} prioritas={i < 2} />)}
     </div>
   </section>
