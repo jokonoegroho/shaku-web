@@ -41,7 +41,7 @@ const skema = {
     priceCurrency: 'IDR',
     availability: d.tersedia
       ? 'https://schema.org/InStock'
-      : 'https://schema.org/OutOfStock',
+      : 'https://schema.org/SoldOut',
     url: new URL(`/katalog/${produk.id}/`, SITUS.domain).href,
   },
 };
@@ -145,18 +145,19 @@ const skema = {
             </a>
           ) : (
             <div class="mt-8 rounded-2xl border border-garis bg-latar-2 p-5 text-center">
-              <p class="text-sm font-semibold text-teks">Stok sedang habis</p>
+              <p class="text-sm font-semibold text-teks">Sudah terjual</p>
               <p class="mt-2 text-xs text-teks-redup">
-                Chat kami untuk ditandai saat restok tiba.
+                Desain ini one of one — sudah dimiliki satu orang dan tidak dibuat ulang. Kamu
+                bisa minta desain baru khusus untukmu.
               </p>
               <a
                 href={tautanWhatsApp(
-                  `Halo ${SITUS.nama}, tolong kabari kalau "${d.nama}" sudah restok.`,
+                  `Halo ${SITUS.nama}, "${d.nama}" sudah terjual. Boleh dibuatkan desain lain untukku?`,
                 )}
                 rel="noopener"
                 class="mt-4 inline-block rounded-full border border-garis px-6 py-2.5 text-sm font-semibold text-teks transition hover:border-aksen hover:text-aksen"
               >
-                Kabari saat restok
+                Minta desain untukku
               </a>
             </div>
           )
