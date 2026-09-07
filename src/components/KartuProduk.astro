@@ -71,3 +71,34 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
     </div>
   </a>
 </article>
+
+<script>
+  /**
+   * Memunculkan kartu produk dengan gerakan timbul saat masuk layar.
+   *
+   * Kelas awal sengaja dipasang lewat skrip, bukan langsung di HTML, supaya
+   * pengunjung yang JavaScript-nya mati tetap melihat kartu secara normal.
+   */
+  const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const kartu = document.querySelectorAll<HTMLElement>('.kartu-timbul');
+
+  if (!kurangiGerak && 'IntersectionObserver' in window) {
+    kartu.forEach((k) => k.classList.add('siap-muncul'));
+
+    const pengamat = new IntersectionObserver(
+      (masuk) => {
+        masuk.forEach((entri, i) => {
+          if (!entri.isIntersecting) return;
+          const el = entri.target as HTMLElement;
+          // Jeda bertingkat supaya kartu muncul menyusul, bukan serentak.
+          el.style.transitionDelay = `${Math.min(i, 3) * 80}ms`;
+          el.classList.add('muncul');
+          pengamat.unobserve(el);
+        });
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.15 },
+    );
+
+    kartu.forEach((k) => pengamat.observe(k));
+  }
+</script>
