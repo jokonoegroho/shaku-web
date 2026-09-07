@@ -1,7 +1,6 @@
 @import "tailwindcss";
 /* Font di-host sendiri (bukan dari CDN) supaya situs tetap utuh
    walau pengunjung tidak bisa menjangkau server pihak ketiga. */
-@import "@fontsource-variable/cinzel";
 @import "@fontsource-variable/bodoni-moda";
 
 /*
@@ -23,7 +22,7 @@
   --color-di-aksen: #faf7f3;
   --color-emas: #96683c;
 
-  --font-judul: "Cinzel Variable", "Times New Roman", Georgia, serif;
+  --font-judul: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
   --font-badan: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
 }
 
@@ -42,8 +41,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Judul serif klasik Cinzel. Dibiarkan huruf campur (bukan kapital semua)
-   supaya terkesan anggun, bukan berteriak seperti tema condensed lama. */
+/* Judul memakai Bodoni Moda, sama dengan teks badan, supaya satu suara dengan
+   wordmark SHA.KU yang juga bergaya Didone. Berat 500 dipilih karena Bodoni
+   punya kontras tebal-tipis ekstrem dan terlihat rapuh di berat normal. */
 .judul {
   font-family: var(--font-judul);
   font-weight: 500;
