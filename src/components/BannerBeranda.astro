@@ -1,0 +1,270 @@
+---
+import { Image, getImage } from 'astro:assets';
+import gambarKepala from '../assets/banner-shaku-desktop.webp';
+import gambarKepalaHp from '../assets/banner-shaku-hp.webp';
+import wordmark from '../assets/wordmark-shaku.png';
+import MenuSeluler from './MenuSeluler.astro';
+import PencarianBanner from './PencarianBanner.astro';
+import { SITUS } from '../konfigurasi';
+
+const sampel = [
+      {
+        foto: (await import('../assets/banner-sampel/polkadot.webp')).default,
+        fotoHp: (await import('../assets/banner-sampel/polkadot-hp.webp')).default,
+        nama: 'Kuku putih polkadot',
+      },
+      {
+        foto: (await import('../assets/banner-sampel/hitam.webp')).default,
+        fotoHp: (await import('../assets/banner-sampel/hitam-hp.webp')).default,
+        nama: 'Kuku hitam dengan garis putih',
+      },
+      {
+        foto: (await import('../assets/banner-sampel/daun.webp')).default,
+        fotoHp: (await import('../assets/banner-sampel/daun-hp.webp')).default,
+        nama: 'Kuku putih motif daun',
+      },
+      {
+        foto: (await import('../assets/banner-sampel/iklan-french.jpg')).default,
+        fotoHp: (await import('../assets/banner-sampel/iklan-french-hp.webp')).default,
+        nama: 'Foto iklan kuku french dengan hiasan kristal',
+        fokusHp: '20% 50%',
+      },
+    ];
+
+const daftar = [
+  { foto: gambarKepala, fotoHp: gambarKepalaHp, nama: `${SITUS.nama} — ${SITUS.subMerek}` },
+  ...sampel,
+];
+const slide = await Promise.all(daftar.map(async (s) => ({
+  ...s,
+  gambarHp: await getImage({
+    src: s.fotoHp,
+    width: Math.min(s.fotoHp.width, 960),
+    format: 'webp',
+  }),
+})));
+---
+
+<div class="banner" data-banner role="region" aria-label="Banner SHA.KU" aria-roledescription={sampel.length ? 'karusel' : undefined} tabindex={sampel.length ? 0 : undefined}>
+  <MenuSeluler diBanner />
+  <PencarianBanner />
+  {
+    slide.map((s, i) => (
+      <div class:list={['bidang', { aktif: i === 0 }]} data-banner-slide aria-hidden={i !== 0}>
+        <picture class="komposisi">
+          <source
+            media="(max-width: 639px)"
+            srcset={s.gambarHp.src}
+            width={s.gambarHp.attributes.width}
+            height={s.gambarHp.attributes.height}
+          />
+          <Image
+            src={s.foto}
+            alt={s.nama}
+            widths={[640, 960, 1280, 2000]}
+            sizes="100vw"
+            loading="eager"
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+            draggable="false"
+            class="foto"
+            style={{ '--fokus-hp': 'fokusHp' in s ? s.fokusHp : '50% 50%' }}
+          />
+        </picture>
+        {i === 0 && (
+          <div class="identitas-banner">
+            <Image
+              src={wordmark}
+              alt={SITUS.nama}
+              widths={[240, 480, 720, 983]}
+              sizes="(max-width: 1280px) 50vw, 640px"
+              loading="eager"
+              class="wordmark-banner"
+            />
+            <p class="pembuat-banner">{SITUS.subMerek}</p>
+          </div>
+        )}
+      </div>
+    ))
+  }
+  {
+    sampel.length > 0 && (
+      <div class="kendali" data-banner-kendali hidden>
+        {slide.map((s, i) => (
+          <button type="button" class="titik" data-banner-titik aria-label={`Tampilkan slide ${i + 1}: ${s.nama}`} aria-current={i === 0 ? 'true' : undefined}>
+            <span />
+          </button>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .banner {
+    position: relative;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--color-latar-2);
+    touch-action: pan-y;
+  }
+  .bidang {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 600ms ease, visibility 600ms;
+  }
+  .bidang.aktif {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+  /* Efek zoom dan memudar, tanpa memiringkan foto atau mengubah tinggi bidang. */
+  .komposisi {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.12);
+    transition: transform 2s cubic-bezier(0.16, 0.8, 0.24, 1);
+  }
+  .bidang.aktif .komposisi {
+    transform: scale(1);
+  }
+  .foto {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--fokus-hp, center);
+  }
+  /* Terang hanya di sekitar identitas; tepi foto tetap tanpa lapisan putih. */
+  .identitas-banner {
+    position: absolute;
+    inset: 15% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+      ellipse at center,
+      rgb(255 255 255 / 68%) 0%,
+      rgb(255 255 255 / 34%) 45%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+  .wordmark-banner {
+    width: 50%;
+    max-width: 640px;
+    height: auto;
+  }
+  .pembuat-banner {
+    margin-top: clamp(8px, 1.5vw, 20px);
+    color: var(--color-teks);
+    font-family: var(--font-judul);
+    font-size: clamp(12px, 2.2vw, 26px);
+    font-weight: 500;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .kendali {
+    position: absolute;
+    z-index: 2;
+    bottom: 8px;
+    left: 50%;
+    display: flex;
+    width: max-content;
+    max-width: calc(100% - 16px);
+    transform: translateX(-50%);
+  }
+  .titik {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-width: 24px;
+    height: 44px;
+    cursor: pointer;
+  }
+  .titik span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 40%);
+  }
+  .titik[aria-current="true"] span {
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    background: transparent;
+  }
+  [hidden] { display: none; }
+  @media (min-width: 640px) {
+    .foto { object-position: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bidang { transition: none; }
+    .komposisi, .bidang.aktif .komposisi {
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const banner = document.querySelector<HTMLElement>('[data-banner]');
+  if (banner) {
+    const bidang = [...banner.querySelectorAll<HTMLElement>('[data-banner-slide]')];
+    const titik = [...banner.querySelectorAll<HTMLButtonElement>('[data-banner-titik]')];
+    const kendali = banner.querySelector<HTMLElement>('[data-banner-kendali]');
+
+    if (bidang.length > 1 && kendali) {
+      const gerak = matchMedia('(prefers-reduced-motion: reduce)');
+      let aktif = 0;
+      let berjalan = !gerak.matches;
+      let awalX = 0;
+      let awalY = 0;
+
+      const tampilkan = (indeks: number) => {
+        aktif = (indeks + bidang.length) % bidang.length;
+        bidang.forEach((el, i) => {
+          el.classList.toggle('aktif', i === aktif);
+          el.setAttribute('aria-hidden', String(i !== aktif));
+          if (i === aktif) titik[i].setAttribute('aria-current', 'true');
+          else titik[i].removeAttribute('aria-current');
+        });
+      };
+
+      kendali.hidden = false;
+      titik.forEach((t, i) => t.addEventListener('click', () => {
+        berjalan = false;
+        tampilkan(i);
+      }));
+      banner.addEventListener('keydown', (e) => {
+        if (e.target instanceof Element && e.target.closest('[data-menu-seluler], [data-pencarian-banner]')) return;
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        berjalan = false;
+        tampilkan(aktif + (e.key === 'ArrowRight' ? 1 : -1));
+      });
+      banner.addEventListener('pointerdown', (e) => {
+        awalX = e.clientX;
+        awalY = e.clientY;
+      });
+      banner.addEventListener('pointerup', (e) => {
+        if (e.target instanceof Element && e.target.closest('[data-menu-seluler], [data-pencarian-banner]')) return;
+        const jarak = e.clientX - awalX;
+        if (Math.abs(jarak) < 40 || Math.abs(jarak) < Math.abs(e.clientY - awalY)) return;
+        berjalan = false;
+        tampilkan(aktif + (jarak < 0 ? 1 : -1));
+      });
+      gerak.addEventListener('change', () => { berjalan = false; });
+      window.setInterval(() => {
+        if (!berjalan || document.hidden || banner.matches(':hover') || banner.contains(document.activeElement)) return;
+        tampilkan(aktif + 1);
+      }, 6000);
+    }
+  }
+</script>

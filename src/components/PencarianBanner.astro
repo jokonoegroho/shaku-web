@@ -1,0 +1,106 @@
+<div data-pencarian-banner>
+  <a
+    href="/katalog/"
+    class="pemicu-pencarian"
+    aria-label="Buka pencarian"
+    aria-haspopup="dialog"
+    aria-controls="panel-pencarian"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="8" />
+      <path d="m16.5 16.5 5 5" />
+    </svg>
+  </a>
+  <dialog id="panel-pencarian" aria-label="Pencarian produk">
+    <button type="button" class="tutup-pencarian" aria-label="Tutup pencarian">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="m5 5 14 14M19 5 5 19" />
+      </svg>
+    </button>
+    <form action="/katalog/" method="get" role="search" class="form-pencarian">
+      <input type="search" name="q" placeholder="Cari desain..." aria-label="Cari produk" required autofocus />
+      <button type="submit" aria-label="Cari">
+        <svg width="32" height="24" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M2 12h27m-9-9 9 9-9 9" />
+        </svg>
+      </button>
+    </form>
+  </dialog>
+</div>
+
+<style>
+  .pemicu-pencarian {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    z-index: 10;
+    color: white;
+  }
+  .pemicu-pencarian,
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+  }
+  .pemicu-pencarian svg {
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 45%));
+  }
+  dialog {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    padding: 24px;
+    background: var(--color-latar);
+    color: var(--color-teks);
+  }
+  dialog[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  :global(body:has(#panel-pencarian[open])) {
+    overflow: hidden;
+  }
+  .tutup-pencarian {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+  }
+  .form-pencarian {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 640px;
+    border-bottom: 1px solid var(--color-teks);
+  }
+  input {
+    flex: 1;
+    min-width: 0;
+    min-height: 56px;
+    padding: 8px;
+    font-size: clamp(20px, 4vw, 32px);
+  }
+  .form-pencarian button { flex-shrink: 0; }
+</style>
+
+<script>
+  const pemicu = document.querySelector<HTMLAnchorElement>('.pemicu-pencarian');
+  const panel = document.querySelector<HTMLDialogElement>('#panel-pencarian');
+  const tutup = panel?.querySelector<HTMLButtonElement>('.tutup-pencarian');
+
+  if (pemicu && panel && tutup) {
+    pemicu.addEventListener('click', (e) => {
+      e.preventDefault();
+      panel.showModal();
+    });
+    tutup.addEventListener('click', () => panel.close());
+  }
+</script>

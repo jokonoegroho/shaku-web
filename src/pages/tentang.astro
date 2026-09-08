@@ -9,7 +9,7 @@ const wa = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya-tanya dulu.`);
   judul="Tentang"
   deskripsi={`Tentang ${SITUS.nama}, toko press-on nail yang menjual desain siap pakai untuk dipasang sendiri di rumah.`}
 >
-  <section class="mx-auto max-w-3xl px-4 py-14">
+  <section class="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14">
     <h1 class="judul text-3xl sm:text-5xl">Tentang {SITUS.nama}</h1>
 
     <div class="konten-kaya mt-8 text-sm leading-relaxed text-teks-redup">
@@ -28,7 +28,7 @@ const wa = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya-tanya dulu.`);
       </p>
     </div>
 
-    <div class="mt-12 rounded-2xl border border-garis bg-latar-2 p-6">
+    <div class="mt-12 border-y border-garis py-6">
       <h2 class="judul text-2xl">Punya pertanyaan?</h2>
       <p class="mt-2 text-sm text-teks-redup">
         Silakan chat, tidak harus langsung beli.
@@ -36,7 +36,7 @@ const wa = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya-tanya dulu.`);
       <a
         href={wa}
         rel="noopener"
-        class="mt-5 inline-block rounded-full bg-aksen px-7 py-3 text-sm font-semibold text-di-aksen transition hover:bg-aksen-terang"
+        class="tombol mt-5 bg-aksen px-7 py-3 text-di-aksen transition-colors hover:bg-aksen-terang"
       >
         Chat WhatsApp
       </a>

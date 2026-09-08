@@ -1,0 +1,100 @@
+---
+import { TAUTAN_UTAMA } from '../konfigurasi';
+
+interface Props {
+  diBanner?: boolean;
+}
+
+const { diBanner = false } = Astro.props;
+const jalurAktif = Astro.url.pathname;
+---
+
+<div class:list={['menu-seluler', { 'di-banner': diBanner }]} data-menu-seluler>
+  <button
+    type="button"
+    id="tombol-menu"
+    class="inline-flex h-11 w-11 items-center justify-center text-teks"
+    aria-label="Buka menu"
+    aria-expanded="false"
+    aria-controls="menu-hp"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M0 4h24M0 12h24M0 20h24" />
+    </svg>
+  </button>
+  <nav id="menu-hp" class="tautan-menu" aria-label="Navigasi seluler" hidden>
+    {
+      TAUTAN_UTAMA.map((t) => (
+        <a
+          href={t.href}
+          class:list={[
+            'block border-b border-garis/60 px-4 py-3 text-sm last:border-0',
+            jalurAktif === t.href ? 'text-aksen' : 'text-teks-redup',
+          ]}
+          aria-current={jalurAktif === t.href ? 'page' : undefined}
+        >
+          {t.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<style>
+  .menu-seluler { position: relative; }
+  .di-banner {
+    position: absolute;
+    top: 12px;
+    left: 8px;
+    z-index: 10;
+  }
+  .di-banner button {
+    background: transparent;
+    color: white;
+  }
+  .di-banner button svg {
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 45%));
+  }
+  .di-banner .tautan-menu {
+    right: auto;
+    left: 0;
+  }
+  .tautan-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(280px, calc(100vw - 40px));
+    background: var(--color-latar);
+    border: 1px solid var(--color-garis);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 10%);
+  }
+  [hidden] { display: none; }
+  @media (min-width: 768px) {
+    .menu-seluler { display: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-menu-seluler]').forEach((wadah) => {
+    const tombol = wadah.querySelector<HTMLButtonElement>('button');
+    const menu = wadah.querySelector<HTMLElement>('nav');
+    if (tombol && menu) {
+      const atur = (terbuka: boolean) => {
+        menu.hidden = !terbuka;
+        tombol.setAttribute('aria-expanded', String(terbuka));
+        tombol.setAttribute('aria-label', terbuka ? 'Tutup menu' : 'Buka menu');
+      };
+      tombol.addEventListener('click', () => atur(menu.hidden));
+      wadah.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !menu.hidden) {
+          atur(false);
+          tombol.focus();
+        }
+      });
+      document.addEventListener('click', (e) => {
+        if (e.target instanceof Node && !wadah.contains(e.target)) atur(false);
+      });
+    }
+  });
+</script>

@@ -1,23 +1,18 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-shaku.png';
-import { SITUS } from '../konfigurasi';
-
-const tautan = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Katalog', href: '/katalog/' },
-  { label: 'Cara Pesan', href: '/cara-pesan/' },
-  { label: 'Tentang', href: '/tentang/' },
-];
+import wordmark from '../assets/wordmark-shaku.png';
+import { SITUS, TAUTAN_UTAMA } from '../konfigurasi';
+import MenuSeluler from './MenuSeluler.astro';
 
 const jalurAktif = Astro.url.pathname;
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-garis/70 bg-latar/80 backdrop-blur-md"
+  class="sticky top-0 z-40 border-b border-garis bg-latar"
 >
-  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-    <a href="/" class="flex items-center gap-3">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:h-16 sm:px-8">
+    <a href="/" class="-ml-1 flex items-center gap-2">
       <Image
         src={logo}
         alt={`Logo ${SITUS.nama}`}
@@ -26,12 +21,19 @@ const jalurAktif = Astro.url.pathname;
         loading="eager"
         class="h-10 w-10 rounded-full ring-1 ring-garis"
       />
-      <span class="judul text-base tracking-widest text-teks sm:text-lg">{SITUS.nama}</span>
+      <Image
+        src={wordmark}
+        alt={SITUS.nama}
+        widths={[75, 150, 225]}
+        sizes="75px"
+        loading="eager"
+        class="h-auto w-[75px]"
+      />
     </a>
 
     <nav class="hidden gap-8 md:flex" aria-label="Navigasi utama">
       {
-        tautan.map((t) => (
+        TAUTAN_UTAMA.map((t) => (
           <a
             href={t.href}
             class:list={[
@@ -46,48 +48,7 @@ const jalurAktif = Astro.url.pathname;
       }
     </nav>
 
-    <button
-      type="button"
-      id="tombol-menu"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-garis text-teks md:hidden"
-      aria-label="Buka menu"
-      aria-expanded="false"
-      aria-controls="menu-hp"
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
-      </svg>
-    </button>
+    {jalurAktif !== '/' && <MenuSeluler />}
   </div>
 
-  <nav
-    id="menu-hp"
-    class="hidden border-t border-garis bg-latar-2 md:hidden"
-    aria-label="Navigasi seluler"
-  >
-    {
-      tautan.map((t) => (
-        <a
-          href={t.href}
-          class:list={[
-            'block border-b border-garis/60 px-4 py-3 text-sm',
-            jalurAktif === t.href ? 'text-aksen' : 'text-teks-redup',
-          ]}
-        >
-          {t.label}
-        </a>
-      ))
-    }
-  </nav>
 </header>
-
-<script>
-  const tombol = document.getElementById('tombol-menu');
-  const menu = document.getElementById('menu-hp');
-
-  tombol?.addEventListener('click', () => {
-    const terbuka = menu?.classList.toggle('hidden') === false;
-    tombol.setAttribute('aria-expanded', String(terbuka));
-    tombol.setAttribute('aria-label', terbuka ? 'Tutup menu' : 'Buka menu');
-  });
-</script>

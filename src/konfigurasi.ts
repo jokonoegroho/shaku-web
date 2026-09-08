@@ -22,6 +22,13 @@ export const SITUS = {
   kota: 'Indonesia',
 } as const;
 
+export const TAUTAN_UTAMA = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Katalog', href: '/katalog/' },
+  { label: 'Cara Pesan', href: '/cara-pesan/' },
+  { label: 'Tentang', href: '/tentang/' },
+];
+
 /** Mata uang rupiah tanpa desimal. */
 export function formatRupiah(nilai: number): string {
   return new Intl.NumberFormat('id-ID', {

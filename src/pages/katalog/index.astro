@@ -20,11 +20,23 @@ const panjangTersedia = panjangUrut.filter((p) =>
   judul="Katalog"
   deskripsi="Semua desain press-on nail yang tersedia. Saring berdasarkan bentuk dan panjang kuku."
 >
-  <section class="mx-auto max-w-6xl px-4 py-14">
+  <section class="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
     <h1 class="judul text-3xl sm:text-5xl">Katalog</h1>
-    <p class="mt-3 text-sm text-teks-redup">
+    <p class="mt-3 text-sm text-teks-redup" role="status">
       <span id="jumlah-tampil">{produk.length}</span> desain tersedia.
     </p>
+
+    <form action="/katalog/" method="get" role="search" class="mt-6 flex gap-2">
+      <label for="cari-produk" class="sr-only">Cari produk</label>
+      <input
+        id="cari-produk"
+        type="search"
+        name="q"
+        placeholder="Cari nama, bentuk, atau warna..."
+        class="min-h-11 min-w-0 flex-1 rounded border border-garis px-3 text-base"
+      />
+      <button type="submit" class="tombol border border-garis px-5">Cari</button>
+    </form>
 
     <!-- Filter: murni di sisi pengunjung, tanpa muat ulang halaman. -->
     <div class="mt-8 space-y-4">
@@ -70,7 +82,8 @@ const panjangTersedia = panjangUrut.filter((p) =>
 <style>
   .tombol-filter {
     border: 1px solid var(--color-garis);
-    border-radius: 9999px;
+    border-radius: 4px;
+    min-height: 44px;
     padding: 0.375rem 0.875rem;
     font-size: 0.8125rem;
     color: var(--color-teks-redup);
@@ -98,13 +111,22 @@ const panjangTersedia = panjangUrut.filter((p) =>
   const grid = document.getElementById('grid-produk');
   const pesanKosong = document.getElementById('pesan-kosong');
   const jumlahTampil = document.getElementById('jumlah-tampil');
-  const kartu = Array.from(grid?.children ?? []) as HTMLElement[];
+  const pencarian = document.querySelector<HTMLInputElement>('#cari-produk');
+  const kartu = Array.from(grid?.querySelectorAll<HTMLElement>('[data-pencarian]') ?? []);
+
+  if (pencarian) {
+    pencarian.value = new URLSearchParams(window.location.search).get('q') ?? '';
+    pencarian.addEventListener('input', terapkan);
+  }
 
   function terapkan() {
     let tampil = 0;
+    const kata = (pencarian?.value ?? '').trim().toLocaleLowerCase('id').split(/\s+/).filter(Boolean);
 
     for (const el of kartu) {
+      const teks = (el.dataset.pencarian ?? '').toLocaleLowerCase('id');
       const cocok =
+        kata.every((k) => teks.includes(k)) &&
         (pilihan.bentuk === 'semua' || el.dataset.bentuk === pilihan.bentuk) &&
         (pilihan.panjang === 'semua' || el.dataset.panjang === pilihan.panjang);
 
@@ -115,6 +137,8 @@ const panjangTersedia = panjangUrut.filter((p) =>
     pesanKosong?.classList.toggle('hidden', tampil > 0);
     if (jumlahTampil) jumlahTampil.textContent = String(tampil);
   }
+
+  terapkan();
 
   document.querySelectorAll<HTMLButtonElement>('.tombol-filter').forEach((tombol) => {
     tombol.addEventListener('click', () => {

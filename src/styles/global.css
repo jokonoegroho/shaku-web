@@ -1,34 +1,21 @@
 @import "tailwindcss";
-/* Font di-host sendiri (bukan dari CDN) supaya situs tetap utuh
-   walau pengunjung tidak bisa menjangkau server pihak ketiga. */
+/* Font merek di-host sendiri, tanpa bergantung pada CDN. */
 @import "@fontsource-variable/bodoni-moda";
 @import "@fontsource-variable/cinzel";
 
-/*
-/*
-  Tema Shaku: latar putih bersih, aksen burgundi yang diambil langsung dari
-  tulisan SHA.KU di logo (#4c0c0c). Semua warna didefinisikan sekali di sini
-  supaya ganti tema cukup di satu tempat.
-*/
 @theme {
   --color-latar: #ffffff;
-  /* Abu sangat tipis untuk bidang kartu, supaya batasnya tetap terbaca di
-     atas latar putih tanpa perlu garis tebal. */
   --color-latar-2: #fafafa;
   --color-latar-3: #f2f1f0;
   --color-garis: #e4e1de;
   --color-teks: #221c1c;
   --color-teks-redup: #6b6360;
   --color-aksen: #4c0c0c;
-  /* Dipakai untuk hover tombol; sedikit lebih terang agar terasa mengangkat. */
   --color-aksen-terang: #6e1a1a;
-  /* Teks di atas warna aksen; burgundi gelap butuh teks terang agar terbaca. */
   --color-di-aksen: #ffffff;
   --color-emas: #96683c;
 
   --font-judul: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
-  /* Cinzel dipakai terbatas sebagai huruf hiasan, hanya untuk judul utama
-     beranda, supaya tidak beradu dengan Bodoni di seluruh halaman. */
   --font-hiasan: "Cinzel Variable", "Times New Roman", Georgia, serif;
   --font-badan: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
 }
@@ -42,15 +29,12 @@ body {
   background-color: var(--color-latar);
   color: var(--color-teks);
   font-family: var(--font-badan);
-  /* Bodoni bergaris rambut tipis; 450 menahan teks kecil agar tidak pudar
-     di layar HP. */
   font-weight: 450;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Judul memakai Bodoni Moda, sama dengan teks badan, supaya satu suara dengan
-   wordmark SHA.KU yang juga bergaya Didone. Berat 500 dipilih karena Bodoni
-   punya kontras tebal-tipis ekstrem dan terlihat rapuh di berat normal. */
+/* Bodoni untuk judul dan teks; Cinzel sebagai aksen judul utama beranda. */
 .judul {
   font-family: var(--font-judul);
   font-weight: 500;
@@ -58,7 +42,6 @@ body {
   line-height: 1.15;
 }
 
-/* Huruf hiasan Cinzel, dipakai terbatas pada judul utama beranda. */
 .hiasan {
   font-family: var(--font-hiasan);
   font-weight: 500;
@@ -66,64 +49,22 @@ body {
   line-height: 1.15;
 }
 
-/*
-  Efek timbul untuk kartu produk. Kartu diangkat sedikit sambil dimiringkan
-  tipis pada sumbu X, jadi terasa terangkat dari halaman, bukan sekadar
-  membesar. Perspective ditulis di dalam transform supaya tidak perlu
-  mengubah pembungkusnya.
-*/
-.kartu-timbul {
-  transition:
-    transform 300ms cubic-bezier(0.2, 0.7, 0.3, 1),
-    box-shadow 300ms ease;
-  will-change: transform;
+.tombol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-/*
-  Muncul timbul saat kartu masuk layar. Ini yang membuat efeknya tetap
-  terlihat di HP, karena layar sentuh tidak punya kursor untuk hover.
-  Kelas siap-muncul hanya dipasang oleh skrip, jadi kalau JavaScript mati
-  kartu tetap tampil normal, bukan ikut tersembunyi.
-*/
-.kartu-timbul.siap-muncul {
-  opacity: 0;
-  transform: perspective(900px) translateY(18px) rotateX(8deg) scale(0.97);
+:focus-visible {
+  outline: 2px solid var(--color-aksen);
+  outline-offset: 4px;
 }
 
-.kartu-timbul.muncul {
-  opacity: 1;
-  transform: perspective(900px) translateY(0) rotateX(0) scale(1);
-  transition:
-    transform 620ms cubic-bezier(0.16, 0.84, 0.3, 1),
-    opacity 480ms ease-out,
-    box-shadow 300ms ease;
-}
-
-/* Di layar sentuh kartu diberi bayangan tetap supaya tetap terasa terangkat
-   walau tidak sedang disentuh. */
-@media (hover: none) {
-  .kartu-timbul {
-    box-shadow: 0 12px 22px -16px rgb(76 12 12 / 0.45);
-  }
-}
-
-/* Hanya pada perangkat yang benar-benar punya kursor; di layar sentuh efek
-   hover justru tersangkut setelah jari diangkat. */
-@media (hover: hover) {
-  .kartu-timbul:hover,
-  .kartu-timbul:focus-within {
-    transform: perspective(900px) translateY(-6px) rotateX(4deg) scale(1.02);
-    box-shadow: 0 18px 30px -14px rgb(76 12 12 / 0.35);
-  }
-}
-
-/* Umpan balik saat ditekan, ini yang terasa di HP. */
-.kartu-timbul:active {
-  transform: perspective(900px) translateY(-2px) scale(0.99);
-  transition-duration: 120ms;
-}
-
-/* Hormati preferensi pengguna yang tidak nyaman dengan animasi. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -131,6 +72,7 @@ body {
   *,
   *::before,
   *::after {
+    scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
@@ -141,7 +83,7 @@ body {
   color: var(--color-di-aksen);
 }
 
-/* Gaya untuk isi Markdown (deskripsi produk, halaman statis). */
+/* Gaya untuk deskripsi produk dan halaman Markdown. */
 .konten-kaya p {
   margin-block: 0.85rem;
 }
@@ -155,11 +97,11 @@ body {
   padding-left: 1.25rem;
   list-style: disc;
 }
-.konten-kaya ol {
-  list-style: decimal;
-}
 .konten-kaya li {
   margin-block: 0.35rem;
+}
+.konten-kaya ol {
+  list-style: decimal;
 }
 .konten-kaya a {
   color: var(--color-aksen);

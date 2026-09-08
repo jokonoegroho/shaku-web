@@ -17,27 +17,28 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
 ---
 
 <article
-  class="group kartu-timbul relative overflow-hidden rounded-2xl border border-garis bg-latar-2 transition hover:border-aksen/60"
+  class="relative min-w-0 bg-latar"
   data-bentuk={d.bentuk}
   data-panjang={d.panjang}
   data-warna={d.warna.join(' ')}
   data-tersedia={String(d.tersedia)}
+  data-pencarian={[d.nama, d.bentuk, d.panjang, ...d.warna].join(' ')}
 >
   <a href={`/katalog/${produk.id}/`} class="block">
-    <div class="relative aspect-4/5 overflow-hidden bg-latar-3">
+    <div class="relative aspect-4/5 overflow-hidden bg-latar-2">
       <Image
         src={d.foto[0]}
         alt={`Press-on nail ${d.nama}`}
         widths={[320, 480, 640]}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
         loading={prioritas ? 'eager' : 'lazy'}
-        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        class="h-full w-full object-contain"
       />
 
       {
         !d.tersedia && (
-          <div class="absolute inset-0 flex items-center justify-center bg-latar/70">
-            <span class="rounded-full border border-garis px-3 py-1 text-xs font-semibold tracking-wide text-teks-redup">
+          <div class="absolute bottom-3 left-3">
+            <span class="bg-latar px-3 py-1.5 text-[10px] font-medium tracking-wide text-teks-redup">
               TERJUAL
             </span>
           </div>
@@ -46,20 +47,20 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
 
       {
         diskon > 0 && d.tersedia && (
-          <span class="absolute top-3 left-3 rounded-full bg-aksen px-2.5 py-1 text-xs font-bold text-di-aksen">
+          <span class="absolute top-3 left-3 bg-aksen px-2.5 py-1 text-xs font-medium text-di-aksen">
             -{diskon}%
           </span>
         )
       }
     </div>
 
-    <div class="p-4">
-      <h3 class="judul text-xl text-teks">{d.nama}</h3>
+    <div class="pt-3 pb-4">
+      <h3 class="text-sm font-medium text-teks">{d.nama}</h3>
       <p class="mt-1 text-xs text-teks-redup capitalize">
         {d.bentuk} · {d.panjang} · {d.jumlahKuku} pcs
       </p>
-      <p class="mt-3 flex items-baseline gap-2">
-        <span class="text-base font-semibold text-teks">{formatRupiah(d.harga)}</span>
+      <p class="mt-2 flex flex-wrap items-baseline gap-2">
+        <span class="text-sm text-teks">{formatRupiah(d.harga)}</span>
         {
           diskon > 0 && (
             <span class="text-xs text-teks-redup line-through">
@@ -71,34 +72,3 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
     </div>
   </a>
 </article>
-
-<script>
-  /**
-   * Memunculkan kartu produk dengan gerakan timbul saat masuk layar.
-   *
-   * Kelas awal sengaja dipasang lewat skrip, bukan langsung di HTML, supaya
-   * pengunjung yang JavaScript-nya mati tetap melihat kartu secara normal.
-   */
-  const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const kartu = document.querySelectorAll<HTMLElement>('.kartu-timbul');
-
-  if (!kurangiGerak && 'IntersectionObserver' in window) {
-    kartu.forEach((k) => k.classList.add('siap-muncul'));
-
-    const pengamat = new IntersectionObserver(
-      (masuk) => {
-        masuk.forEach((entri, i) => {
-          if (!entri.isIntersecting) return;
-          const el = entri.target as HTMLElement;
-          // Jeda bertingkat supaya kartu muncul menyusul, bukan serentak.
-          el.style.transitionDelay = `${Math.min(i, 3) * 80}ms`;
-          el.classList.add('muncul');
-          pengamat.unobserve(el);
-        });
-      },
-      { rootMargin: '0px 0px -12% 0px', threshold: 0.15 },
-    );
-
-    kartu.forEach((k) => pengamat.observe(k));
-  }
-</script>
