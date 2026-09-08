@@ -1,0 +1,131 @@
+---
+/**
+ * Slideshow katalog untuk bagian paling atas beranda.
+ *
+ * Dibuat dengan scroll-snap, bukan pustaka carousel, supaya tetap bisa digeser
+ * dengan jari di HP walau JavaScript gagal dimuat. Skrip hanya menambah
+ * pergantian otomatis dan titik penanda.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatRupiah } from '../konfigurasi';
+
+interface Props {
+  produk: CollectionEntry<'produk'>[];
+}
+
+const { produk } = Astro.props;
+---
+
+<section class="relative" aria-label="Sorotan katalog" data-slideshow>
+  <div
+    class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    data-jalur
+  >
+    {
+      produk.map((p, i) => (
+        <a
+          href={`/katalog/${p.id}/`}
+          class="relative block w-full shrink-0 snap-center"
+          data-slide
+        >
+          <Image
+            src={p.data.foto[0]}
+            alt={`Press-on nail ${p.data.nama}`}
+            widths={[480, 768, 1200, 1600]}
+            sizes="100vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            class="h-[320px] w-full object-cover object-center sm:h-[420px] lg:h-[480px]"
+          />
+
+          {/* Gelap tipis di bawah supaya tulisan putih tetap terbaca di atas
+              foto terang mana pun. */}
+          <div
+            class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent"
+            aria-hidden="true"
+          />
+
+          <div class="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
+            <p class="judul text-2xl sm:text-3xl">{p.data.nama}</p>
+            <p class="mt-1 text-sm">
+              {formatRupiah(p.data.harga)}
+              {!p.data.tersedia && <span class="ml-2 opacity-80">· Terjual</span>}
+            </p>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center gap-2"
+    data-titik-wadah
+  >
+  </div>
+</section>
+
+<script>
+  /**
+   * Menggerakkan slideshow katalog.
+   *
+   * Titik penanda dibuat lewat skrip, jadi kalau JavaScript mati yang tersisa
+   * hanya deretan foto yang tetap bisa digeser dengan jari.
+   */
+  const wadah = document.querySelector<HTMLElement>('[data-slideshow]');
+  const jalur = wadah?.querySelector<HTMLElement>('[data-jalur]');
+  const slide = jalur ? [...jalur.querySelectorAll<HTMLElement>('[data-slide]')] : [];
+  const titikWadah = wadah?.querySelector<HTMLElement>('[data-titik-wadah]');
+
+  if (wadah && jalur && titikWadah && slide.length > 1) {
+    const titik = slide.map((_, i) => {
+      const t = document.createElement('button');
+      t.type = 'button';
+      t.setAttribute('aria-label', `Ke slide ${i + 1}`);
+      t.className =
+        'pointer-events-auto h-1.5 w-1.5 rounded-full bg-white/60 ring-1 ring-black/20 transition-all';
+      t.addEventListener('click', () => {
+        jalur.scrollTo({ left: jalur.clientWidth * i, behavior: 'smooth' });
+        hentikanOtomatis();
+      });
+      titikWadah.append(t);
+      return t;
+    });
+
+    const tandaiAktif = () => {
+      const aktif = Math.round(jalur.scrollLeft / jalur.clientWidth);
+      titik.forEach((t, i) => {
+        t.classList.toggle('w-4', i === aktif);
+        t.classList.toggle('bg-white', i === aktif);
+        t.classList.toggle('bg-white/60', i !== aktif);
+      });
+    };
+
+    jalur.addEventListener('scroll', () => requestAnimationFrame(tandaiAktif), {
+      passive: true,
+    });
+    tandaiAktif();
+
+    const kurangiGerak = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let jam: number | undefined;
+
+    const hentikanOtomatis = () => {
+      if (jam) clearInterval(jam);
+      jam = undefined;
+    };
+
+    if (!kurangiGerak) {
+      jam = window.setInterval(() => {
+        // Kalau tab tidak terlihat, jangan buang tenaga menggeser.
+        if (document.hidden) return;
+        const berikut = (Math.round(jalur.scrollLeft / jalur.clientWidth) + 1) % slide.length;
+        jalur.scrollTo({ left: jalur.clientWidth * berikut, behavior: 'smooth' });
+      }, 4500);
+
+      // Begitu pengunjung menggeser sendiri, pergantian otomatis dimatikan
+      // supaya tidak merebut kendali dari tangannya.
+      ['pointerdown', 'touchstart', 'wheel'].forEach((n) =>
+        jalur.addEventListener(n, hentikanOtomatis, { passive: true, once: true }),
+      );
+    }
+  }
+</script>

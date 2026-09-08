@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import gambarKepala from '../assets/header-shaku.png';
 import Layout from '../layouts/Layout.astro';
 import KartuProduk from '../components/KartuProduk.astro';
+import SorotanSlide from '../components/SorotanSlide.astro';
 import { SITUS, tautanWhatsApp } from '../konfigurasi';
 
 const semua = await getCollection('produk');
@@ -11,6 +12,15 @@ const unggulan = semua
   .filter((p) => p.data.unggulan)
   .sort((a, b) => a.data.urutan - b.data.urutan)
   .slice(0, 4);
+
+/* Slide sorotan: yang masih tersedia didahulukan supaya pengunjung baru
+   melihat desain yang benar-benar bisa dibeli. */
+const sorotan = [...semua]
+  .sort((a, b) => {
+    if (a.data.tersedia !== b.data.tersedia) return a.data.tersedia ? -1 : 1;
+    return a.data.urutan - b.data.urutan;
+  })
+  .slice(0, 5);
 
 const waUmum = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`);
 
@@ -31,6 +41,10 @@ const keunggulan = [
 ---
 
 <Layout judul={SITUS.nama}>
+  <!-- Sorotan katalog: langsung menampilkan desain, karena kelangkaan satu
+       desain satu set adalah nilai jual utama yang harus terlihat lebih dulu. -->
+  <SorotanSlide produk={sorotan} />
+
   <!-- Hero -->
   <section class="relative overflow-hidden border-b border-garis">
     <div
@@ -38,21 +52,6 @@ const keunggulan = [
       aria-hidden="true"
     >
     </div>
-
-    <!--
-      Gambar kepala dipasang selebar layar tanpa jarak tepi supaya di HP posisi
-      potret langsung memenuhi lebar. Tingginya dibatasi agar di layar lebar
-      tidak berubah jadi bidang raksasa yang mendorong teks ke bawah lipatan.
-    -->
-    <Image
-      src={gambarKepala}
-      alt={`${SITUS.nama} — ${SITUS.subMerek}`}
-      widths={[640, 960, 1280, 2000]}
-      sizes="100vw"
-      loading="eager"
-      fetchpriority="high"
-      class="max-h-[220px] w-full object-cover object-center sm:max-h-[320px] lg:max-h-[380px]"
-    />
 
     <div class="mx-auto max-w-3xl px-4 py-6 sm:py-9">
       <!-- Ukuran ikut lebar layar dengan clamp supaya judul selalu muat satu baris. -->
@@ -108,6 +107,17 @@ const keunggulan = [
       {unggulan.map((p, i) => <KartuProduk produk={p} prioritas={i < 2} />)}
     </div>
   </section>
+
+  <!-- Gambar merek dipindah ke bawah katalog: identitas sudah dibawa header,
+       jadi tempatnya di sini sebagai jeda, bukan penghalang sebelum produk. -->
+  <Image
+    src={gambarKepala}
+    alt={`${SITUS.nama} — ${SITUS.subMerek}`}
+    widths={[640, 960, 1280, 2000]}
+    sizes="100vw"
+    loading="lazy"
+    class="max-h-[200px] w-full object-cover object-center sm:max-h-[280px] lg:max-h-[340px]"
+  />
 
   <!-- Keunggulan -->
   <section class="border-y border-garis bg-latar-2">

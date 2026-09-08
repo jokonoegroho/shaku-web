@@ -5,22 +5,25 @@
 @import "@fontsource-variable/cinzel";
 
 /*
-  Tema linen Shaku: latar krem bersih, aksen burgundi yang diambil langsung
-  dari tulisan SHA.KU di logo (#4c0c0c). Semua warna didefinisikan sekali di
-  sini supaya ganti tema cukup di satu tempat.
+/*
+  Tema Shaku: latar putih bersih, aksen burgundi yang diambil langsung dari
+  tulisan SHA.KU di logo (#4c0c0c). Semua warna didefinisikan sekali di sini
+  supaya ganti tema cukup di satu tempat.
 */
 @theme {
-  --color-latar: #faf7f3;
-  --color-latar-2: #f3ece4;
-  --color-latar-3: #ebe0d5;
-  --color-garis: #ddcfc0;
-  --color-teks: #2b1a19;
-  --color-teks-redup: #6d5a56;
+  --color-latar: #ffffff;
+  /* Abu sangat tipis untuk bidang kartu, supaya batasnya tetap terbaca di
+     atas latar putih tanpa perlu garis tebal. */
+  --color-latar-2: #fafafa;
+  --color-latar-3: #f2f1f0;
+  --color-garis: #e4e1de;
+  --color-teks: #221c1c;
+  --color-teks-redup: #6b6360;
   --color-aksen: #4c0c0c;
   /* Dipakai untuk hover tombol; sedikit lebih terang agar terasa mengangkat. */
   --color-aksen-terang: #6e1a1a;
   /* Teks di atas warna aksen; burgundi gelap butuh teks terang agar terbaca. */
-  --color-di-aksen: #faf7f3;
+  --color-di-aksen: #ffffff;
   --color-emas: #96683c;
 
   --font-judul: "Bodoni Moda Variable", Georgia, "Times New Roman", serif;
