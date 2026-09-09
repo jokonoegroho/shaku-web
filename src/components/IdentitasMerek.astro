@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-shaku.png';
+import wordmark from '../assets/wordmark-shaku.png';
+import { SITUS } from '../konfigurasi';
+---
+
+<a href="/" class="identitas-merek flex items-center gap-2" aria-label={`Beranda ${SITUS.nama}`}>
+  <Image
+    src={logo}
+    alt={`Logo ${SITUS.nama}`}
+    widths={[80, 160]}
+    sizes="40px"
+    loading="eager"
+    class="h-10 w-10 rounded-full"
+  />
+  <Image
+    src={wordmark}
+    alt={SITUS.nama}
+    widths={[75, 150, 225]}
+    sizes="75px"
+    loading="eager"
+    class="wordmark-header h-auto w-[75px]"
+  />
+</a>
+
+<style>
+  .identitas-merek :global(.wordmark-header) {
+    filter:
+      drop-shadow(0 0 0.4px rgb(216 183 127 / 45%))
+      drop-shadow(0.5px 0.7px 0.5px rgb(0 0 0 / 35%))
+      drop-shadow(0 0 1px rgb(232 182 112 / 55%));
+  }
+</style>

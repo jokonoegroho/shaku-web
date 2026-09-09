@@ -71,7 +71,7 @@ const jalurAktif = Astro.url.pathname;
   }
   [hidden] { display: none; }
   @media (min-width: 768px) {
-    .menu-seluler { display: none; }
+    .menu-seluler:not(.di-banner) { display: none; }
   }
 </style>
 

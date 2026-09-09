@@ -5,6 +5,7 @@ import gambarKepalaHp from '../assets/banner-shaku-hp.webp';
 import wordmark from '../assets/wordmark-shaku.png';
 import MenuSeluler from './MenuSeluler.astro';
 import PencarianBanner from './PencarianBanner.astro';
+import IdentitasMerek from './IdentitasMerek.astro';
 import { SITUS } from '../konfigurasi';
 
 const sampel = [
@@ -48,6 +49,9 @@ const slide = await Promise.all(daftar.map(async (s) => ({
 <div class="banner" data-banner role="region" aria-label="Banner SHA.KU" aria-roledescription={sampel.length ? 'karusel' : undefined} tabindex={sampel.length ? 0 : undefined}>
   <MenuSeluler diBanner />
   <PencarianBanner />
+  <div class="merek-di-banner">
+    <IdentitasMerek />
+  </div>
   {
     slide.map((s, i) => (
       <div class:list={['bidang', { aktif: i === 0 }]} data-banner-slide aria-hidden={i !== 0}>
@@ -100,6 +104,13 @@ const slide = await Promise.all(daftar.map(async (s) => ({
 </div>
 
 <style>
+  .merek-di-banner {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
   .banner {
     position: relative;
     height: 100%;

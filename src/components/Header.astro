@@ -1,35 +1,21 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../assets/logo-shaku.png';
-import wordmark from '../assets/wordmark-shaku.png';
-import { SITUS, TAUTAN_UTAMA } from '../konfigurasi';
+import '@fontsource/poppins/200.css';
+import { TAUTAN_UTAMA } from '../konfigurasi';
+import IdentitasMerek from './IdentitasMerek.astro';
 import MenuSeluler from './MenuSeluler.astro';
 
 const jalurAktif = Astro.url.pathname;
 ---
 
 <header
-  class="sticky top-0 z-40 border-b border-garis bg-latar"
+  class="sticky top-0 z-40 bg-black"
 >
+  <p class="pengumuman text-center text-white">
+    GRATIS ONGKIR UNTUK SELURUH PULAU JAWA
+  </p>
+  {jalurAktif !== '/' && (
   <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:h-16 sm:px-8">
-    <a href="/" class="-ml-1 flex items-center gap-2">
-      <Image
-        src={logo}
-        alt={`Logo ${SITUS.nama}`}
-        widths={[80, 160]}
-        sizes="40px"
-        loading="eager"
-        class="h-10 w-10 rounded-full ring-1 ring-garis"
-      />
-      <Image
-        src={wordmark}
-        alt={SITUS.nama}
-        widths={[75, 150, 225]}
-        sizes="75px"
-        loading="eager"
-        class="h-auto w-[75px]"
-      />
-    </a>
+    <IdentitasMerek />
 
     <nav class="hidden gap-8 md:flex" aria-label="Navigasi utama">
       {
@@ -37,8 +23,8 @@ const jalurAktif = Astro.url.pathname;
           <a
             href={t.href}
             class:list={[
-              'text-sm font-medium transition-colors hover:text-teks',
-              jalurAktif === t.href ? 'text-aksen' : 'text-teks-redup',
+              'text-sm font-medium text-[#FFF8F0] underline-offset-4 transition-colors hover:text-white',
+              jalurAktif === t.href ? 'underline' : '',
             ]}
             aria-current={jalurAktif === t.href ? 'page' : undefined}
           >
@@ -48,7 +34,25 @@ const jalurAktif = Astro.url.pathname;
       }
     </nav>
 
-    {jalurAktif !== '/' && <MenuSeluler />}
+    <MenuSeluler />
   </div>
+  )}
 
 </header>
+
+<style>
+  .pengumuman {
+    padding: 9.1px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 1.2;
+    letter-spacing: normal;
+  }
+  header {
+    box-shadow: 0 4px 14px rgb(0 0 0 / 22%);
+  }
+  header :global(.menu-seluler > button) {
+    color: #fff8f0;
+  }
+</style>
