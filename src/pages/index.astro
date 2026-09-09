@@ -3,7 +3,8 @@ import { getCollection } from 'astro:content';
 import BannerBeranda from '../components/BannerBeranda.astro';
 import Layout from '../layouts/Layout.astro';
 import KartuProduk from '../components/KartuProduk.astro';
-import { SITUS, tautanWhatsApp } from '../konfigurasi';
+import { SITUS, pesanUmum, tautanWhatsApp } from '../konfigurasi';
+import { BERANDA } from '../konten';
 
 const semua = await getCollection('produk');
 
@@ -15,22 +16,7 @@ const produkBeranda = [...semua].sort((a, b) => {
   return a.data.urutan - b.data.urutan;
 });
 
-const waUmum = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`);
-
-const keunggulan = [
-  {
-    judul: 'Pasang sendiri 10 menit',
-    isi: 'Tidak perlu janji temu, tidak perlu ke salon. Semua alat sudah termasuk dalam satu paket.',
-  },
-  {
-    judul: 'Bisa dipakai ulang',
-    isi: 'Lepas dengan benar, bersihkan sisa lem, lalu simpan. Satu set bisa dipakai berkali-kali.',
-  },
-  {
-    judul: 'Sepuluh ukuran per set',
-    isi: 'Isi 24 keping dengan sepuluh ukuran berbeda, jadi lebih mudah menemukan yang pas.',
-  },
-];
+const waUmum = tautanWhatsApp(pesanUmum());
 ---
 
 <Layout judul={SITUS.nama}>
@@ -40,16 +26,16 @@ const keunggulan = [
     <div class="bg-[#faf7f7]">
       <div class="mx-auto max-w-3xl px-5 pt-4 pb-20 text-center sm:pt-6 sm:pb-7">
         <h1
-          class="hiasan whitespace-nowrap text-[clamp(0.875rem,4.7vw,2.75rem)]"
+          class="hiasan break-words text-[clamp(0.875rem,4.7vw,2.75rem)]"
         >
-          Kuku cantik tanpa ke salon.
+          {BERANDA.judul}
         </h1>
 
         <p class="mt-3 text-sm font-semibold tracking-[0.08em] text-aksen uppercase sm:text-lg">
-          Sha.ku one of one
+          {BERANDA.jargon}
         </p>
         <p class="mt-1 text-xs font-medium text-teks sm:text-sm">
-          A design made only for you
+          {BERANDA.subJargon}
         </p>
       </div>
     </div>
@@ -58,10 +44,10 @@ const keunggulan = [
   <!-- Sorotan katalog: seluruh produk ikut, jadi desain baru yang ditambahkan
        lewat panel admin langsung muncul di sini tanpa mengubah kode. -->
   <section class="mx-auto max-w-6xl px-5 pt-2 pb-10 sm:px-8 sm:pb-14">
-    <h2 class="sr-only">Katalog desain</h2>
+    <h2 class="sr-only">{BERANDA.judulKatalog}</h2>
     <div class="flex justify-end pb-4">
       <a href="/katalog/" class="inline-flex min-h-11 items-center text-xs font-medium text-aksen underline-offset-4 hover:underline">
-        Lihat katalog →
+        {BERANDA.tautanKatalog}
       </a>
     </div>
     <div class="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4" data-produk-beranda>
@@ -70,10 +56,10 @@ const keunggulan = [
   </section>
 
   <!-- Keunggulan -->
-  <section class="border-y border-garis">
+  {BERANDA.tampilkanKeunggulan && BERANDA.keunggulan.length > 0 && <section class="border-y border-garis">
     <div class="mx-auto grid max-w-6xl gap-7 px-5 py-9 sm:grid-cols-3 sm:gap-10 sm:px-8 sm:py-12">
       {
-        keunggulan.map((k) => (
+        BERANDA.keunggulan.map((k) => (
           <div>
             <h3 class="text-sm font-medium text-teks">{k.judul}</h3>
             <p class="mt-2 max-w-sm text-xs leading-6 text-teks-redup">{k.isi}</p>
@@ -81,22 +67,22 @@ const keunggulan = [
         ))
       }
     </div>
-  </section>
+  </section>}
 
   <!-- Ajakan -->
-  <section class="mx-auto max-w-xl px-5 py-12 text-center sm:py-16">
-    <h2 class="judul text-3xl sm:text-4xl">Bingung pilih yang mana?</h2>
+  {BERANDA.tampilkanAjakan && <section class="mx-auto max-w-xl px-5 py-12 text-center sm:py-16">
+    <h2 class="judul text-3xl sm:text-4xl">{BERANDA.ajakanJudul}</h2>
     <p class="mt-3 text-sm leading-relaxed text-teks-redup">
-      Kirim foto tanganmu lewat WhatsApp, nanti dibantu pilihkan bentuk dan ukuran yang paling pas.
+      {BERANDA.ajakanIsi}
     </p>
     <a
       href={waUmum}
       rel="noopener"
       class="tombol mt-5 border border-garis px-7 py-3 text-aksen transition-colors hover:border-aksen"
     >
-      Chat sekarang
+      {BERANDA.ajakanTombol}
     </a>
-  </section>
+  </section>}
 </Layout>
 
 <style>

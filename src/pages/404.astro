@@ -1,19 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { SITUS, isiTemplat } from '../konfigurasi';
+import { TIDAK_DITEMUKAN } from '../konten-halaman';
+
+const teks = (nilai: string) => isiTemplat(nilai, { nama: SITUS.nama });
 ---
 
-<Layout judul="Halaman tidak ditemukan">
+<Layout
+  judul={teks(TIDAK_DITEMUKAN.meta.judul)}
+  deskripsi={TIDAK_DITEMUKAN.meta.deskripsi ? teks(TIDAK_DITEMUKAN.meta.deskripsi) : SITUS.deskripsi}
+>
   <section class="mx-auto flex max-w-xl flex-col items-center px-4 py-32 text-center">
-    <p class="judul text-6xl text-aksen">404</p>
-    <h1 class="judul mt-4 text-3xl">Halaman tidak ditemukan</h1>
+    <p class="judul text-6xl text-aksen">{teks(TIDAK_DITEMUKAN.kode)}</p>
+    <h1 class="judul mt-4 text-3xl">{teks(TIDAK_DITEMUKAN.judul)}</h1>
     <p class="mt-4 text-sm text-teks-redup">
-      Alamat yang kamu buka tidak ada, atau desainnya sudah tidak dijual lagi.
+      {teks(TIDAK_DITEMUKAN.deskripsi)}
     </p>
     <a
       href="/katalog/"
       class="tombol mt-8 bg-aksen px-7 py-3 text-di-aksen transition-colors hover:bg-aksen-terang"
     >
-      Lihat katalog
+      {teks(TIDAK_DITEMUKAN.tombol)}
     </a>
   </section>
 </Layout>

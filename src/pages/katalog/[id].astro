@@ -4,7 +4,9 @@ import { Image } from 'astro:assets';
 import type { GetStaticPaths } from 'astro';
 import Layout from '../../layouts/Layout.astro';
 import KartuProduk from '../../components/KartuProduk.astro';
-import { SITUS, formatRupiah, pesanProduk, tautanWhatsApp } from '../../konfigurasi';
+import { SITUS, formatRupiah, pesanProduk, pesanTerjual, tautanWhatsApp } from '../../konfigurasi';
+import { KATALOG } from '../../konten';
+import FotoBelumTersedia from '../../components/FotoBelumTersedia.astro';
 
 export const getStaticPaths = (async () => {
   const produk = await getCollection('produk');
@@ -51,14 +53,14 @@ const skema = {
   <script
     type="application/ld+json"
     slot="kepala"
-    set:html={JSON.stringify(skema)}
+    set:html={JSON.stringify(skema).replace(/</g, '\\u003c')}
   />
 
   <section class="mx-auto max-w-6xl px-5 py-10 sm:px-8">
     <nav class="text-xs text-teks-redup" aria-label="Remah roti">
-      <a href="/" class="hover:text-aksen">Beranda</a>
+      <a href="/" class="hover:text-aksen">{SITUS.menu.beranda}</a>
       <span class="mx-2">/</span>
-      <a href="/katalog/" class="hover:text-aksen">Katalog</a>
+      <a href="/katalog/" class="hover:text-aksen">{SITUS.menu.katalog}</a>
       <span class="mx-2">/</span>
       <span class="text-teks">{d.nama}</span>
     </nav>
@@ -67,14 +69,14 @@ const skema = {
       <!-- Galeri foto -->
       <div class="space-y-3">
         <div class="overflow-hidden bg-latar-2">
-          <Image
+          {d.foto[0] ? <Image
             src={d.foto[0]}
             alt={`Press-on nail ${d.nama}`}
             widths={[480, 768, 1000]}
             sizes="(max-width: 1024px) 100vw, 560px"
             loading="eager"
             class="w-full object-cover"
-          />
+          /> : <div class="aspect-4/5"><FotoBelumTersedia /></div>}
         </div>
 
         {
@@ -108,7 +110,7 @@ const skema = {
                   {formatRupiah(d.hargaCoret!)}
                 </span>
                 <span class="bg-aksen px-2.5 py-1 text-xs font-medium text-di-aksen">
-                  Hemat {diskon}%
+                  {KATALOG.hemat} {diskon}%
                 </span>
               </>
             )
@@ -117,19 +119,19 @@ const skema = {
 
         <dl class="mt-8 grid grid-cols-2 gap-4 border-y border-garis py-6 text-sm">
           <div>
-            <dt class="text-xs tracking-widest text-teks-redup uppercase">Bentuk</dt>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">{KATALOG.bentuk}</dt>
             <dd class="mt-1 text-teks capitalize">{d.bentuk}</dd>
           </div>
           <div>
-            <dt class="text-xs tracking-widest text-teks-redup uppercase">Panjang</dt>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">{KATALOG.panjang}</dt>
             <dd class="mt-1 text-teks capitalize">{d.panjang}</dd>
           </div>
           <div>
-            <dt class="text-xs tracking-widest text-teks-redup uppercase">Isi</dt>
-            <dd class="mt-1 text-teks">{d.jumlahKuku} keping</dd>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">{KATALOG.isi}</dt>
+            <dd class="mt-1 text-teks">{d.jumlahKuku} {KATALOG.satuan}</dd>
           </div>
           <div>
-            <dt class="text-xs tracking-widest text-teks-redup uppercase">Warna</dt>
+            <dt class="text-xs tracking-widest text-teks-redup uppercase">{KATALOG.warna}</dt>
             <dd class="mt-1 text-teks capitalize">{d.warna.join(', ')}</dd>
           </div>
         </dl>
@@ -141,23 +143,22 @@ const skema = {
               rel="noopener"
               class="tombol mt-8 w-full gap-2 bg-aksen px-8 py-4 text-di-aksen transition-colors hover:bg-aksen-terang"
             >
-              Pesan via WhatsApp
+              {KATALOG.pesanTombol}
             </a>
           ) : (
             <div class="mt-8 border border-garis bg-latar-2 p-5 text-center">
-              <p class="text-sm font-semibold text-teks">Sudah terjual</p>
+              <p class="text-sm font-semibold text-teks">{KATALOG.terjualJudul}</p>
               <p class="mt-2 text-xs text-teks-redup">
-                Desain ini one of one — sudah dimiliki satu orang dan tidak dibuat ulang. Kamu
-                bisa minta desain baru khusus untukmu.
+                {KATALOG.terjualIsi}
               </p>
               <a
                 href={tautanWhatsApp(
-                  `Halo ${SITUS.nama}, "${d.nama}" sudah terjual. Boleh dibuatkan desain lain untukku?`,
+                  pesanTerjual(d.nama),
                 )}
                 rel="noopener"
                 class="tombol mt-4 border border-garis px-6 py-2.5 text-teks transition-colors hover:border-aksen hover:text-aksen"
               >
-                Minta desain untukku
+                {KATALOG.terjualTombol}
               </a>
             </div>
           )
@@ -168,9 +169,9 @@ const skema = {
         </div>
 
         <p class="mt-8 text-xs text-teks-redup">
-          Belum yakin ukurannya?
+          {KATALOG.panduanJudul}
           <a href="/cara-pesan/" class="text-aksen hover:underline">
-            Lihat panduan ukuran dan cara pesan.
+            {KATALOG.panduanTautan}
           </a>
         </p>
       </div>
@@ -180,7 +181,7 @@ const skema = {
   {
     lainnya.length > 0 && (
       <section class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
-        <h2 class="judul text-2xl sm:text-3xl">Desain lainnya</h2>
+        <h2 class="judul text-2xl sm:text-3xl">{KATALOG.lainnya}</h2>
         <div class="mt-8 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
           {lainnya.map((p) => (
             <KartuProduk produk={p} />

@@ -1,0 +1,27 @@
+{
+  "nama": "SHA.KU",
+  "namaLengkap": "SHA.KU — Press-On Nail by Gorgeousblom.nailart",
+  "subMerek": "By.Gorgeousblom.nailart",
+  "deskripsi": "Press-on nail siap pakai. Kuku cantik dalam hitungan menit, tanpa perlu ke salon.",
+  "whatsapp": "62882005359524",
+  "instagram": "",
+  "tiktok": "",
+  "email": "",
+  "pengumuman": "GRATIS ONGKIR UNTUK SELURUH PULAU JAWA",
+  "tampilkanPengumuman": true,
+  "menu": {
+    "beranda": "Beranda",
+    "katalog": "Katalog",
+    "caraPesan": "Cara Pesan",
+    "tentang": "Tentang"
+  },
+  "footer": {
+    "jelajahi": "Jelajahi",
+    "hubungi": "Hubungi",
+    "hakCipta": "Seluruh hak cipta dilindungi."
+  },
+  "pesanUmum": "Halo {nama}, saya mau tanya soal produk.",
+  "pesanPesan": "Halo {nama}, saya mau pesan \"{produk}\" ({harga}). Apakah masih tersedia?",
+  "pesanTerjual": "Halo {nama}, \"{produk}\" sudah terjual. Boleh dibuatkan desain lain untukku?",
+  "labelWa": "Chat WhatsApp"
+}

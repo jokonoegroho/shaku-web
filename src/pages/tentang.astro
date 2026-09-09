@@ -1,44 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SITUS, tautanWhatsApp } from '../konfigurasi';
+import { SITUS, isiTemplat, tautanWhatsApp } from '../konfigurasi';
+import { TENTANG } from '../konten-halaman';
 
-const wa = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya-tanya dulu.`);
+const teks = (nilai: string) => isiTemplat(nilai, { nama: SITUS.nama });
+const wa = tautanWhatsApp(teks(TENTANG.ajakan.pesanWhatsApp));
 ---
 
 <Layout
-  judul="Tentang"
-  deskripsi={`Tentang ${SITUS.nama}, toko press-on nail yang menjual desain siap pakai untuk dipasang sendiri di rumah.`}
+  judul={teks(TENTANG.meta.judul)}
+  deskripsi={teks(TENTANG.meta.deskripsi)}
 >
   <section class="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14">
-    <h1 class="judul text-3xl sm:text-5xl">Tentang {SITUS.nama}</h1>
+    <h1 class="judul text-3xl sm:text-5xl">{teks(TENTANG.judul)}</h1>
 
     <div class="konten-kaya mt-8 text-sm leading-relaxed text-teks-redup">
-      <p>
-        {SITUS.nama} menjual press-on nail siap pakai: kuku palsu berkualitas yang bisa
-        dipasang sendiri di rumah, tanpa perlu janji temu di salon dan tanpa alat khusus.
-      </p>
-      <p>
-        Setiap set berisi sepuluh ukuran berbeda supaya lebih mudah menemukan yang pas,
-        lengkap dengan lem, perekat jelly, kikir, dan pendorong kutikula.
-      </p>
-      <p>
-        Kami sengaja tidak memakai keranjang belanja otomatis. Setiap pesanan diobrolkan
-        dulu lewat WhatsApp supaya ukuran, ketersediaan, dan ongkir jelas sebelum kamu
-        membayar. Lebih repot sedikit, tapi lebih kecil kemungkinan salah beli.
-      </p>
+      {TENTANG.paragraf.map((paragraf) => <p>{teks(paragraf)}</p>)}
     </div>
 
     <div class="mt-12 border-y border-garis py-6">
-      <h2 class="judul text-2xl">Punya pertanyaan?</h2>
+      <h2 class="judul text-2xl">{teks(TENTANG.ajakan.judul)}</h2>
       <p class="mt-2 text-sm text-teks-redup">
-        Silakan chat, tidak harus langsung beli.
+        {teks(TENTANG.ajakan.deskripsi)}
       </p>
       <a
         href={wa}
         rel="noopener"
         class="tombol mt-5 bg-aksen px-7 py-3 text-di-aksen transition-colors hover:bg-aksen-terang"
       >
-        Chat WhatsApp
+        {teks(TENTANG.ajakan.tombol)}
       </a>
     </div>
   </section>

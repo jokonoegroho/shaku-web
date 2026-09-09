@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "judul": "Cara Pesan",
+    "deskripsi": "Langkah memesan press-on nail {nama}, panduan mengukur kuku, dan pertanyaan yang sering masuk."
+  },
+  "judul": "Cara Pesan",
+  "pengantar": "Semua pesanan diproses lewat WhatsApp. Tidak ada keranjang belanja di situs ini — supaya ukuran dan ongkir bisa dipastikan dulu sebelum kamu membayar.",
+  "langkah": [
+    {
+      "judul": "Pilih desain",
+      "isi": "Buka katalog, tentukan desain, bentuk, dan panjang yang kamu suka."
+    },
+    {
+      "judul": "Chat WhatsApp",
+      "isi": "Tekan tombol \"Pesan via WhatsApp\" di halaman produk. Nama produk sudah otomatis terisi di pesan."
+    },
+    {
+      "judul": "Kirim ukuran",
+      "isi": "Kirim hasil pengukuran kuku atau foto tangan. Kami bantu tentukan ukuran yang paling pas."
+    },
+    {
+      "judul": "Bayar & kirim",
+      "isi": "Setelah pesanan dan ongkir disepakati, lakukan pembayaran. Paket dikirim dan nomor resi diberikan."
+    }
+  ],
+  "ajakan": {
+    "judul": "Siap pesan?",
+    "deskripsi": "Chat langsung, nanti dibantu dari pemilihan desain sampai pengiriman.",
+    "tombol": "Chat WhatsApp",
+    "pesanWhatsApp": "Halo {nama}, saya mau pesan. Boleh dibantu?"
+  },
+  "judulFaq": "Pertanyaan Umum",
+  "faq": [
+    {
+      "tanya": "Bagaimana cara mengukur kuku?",
+      "jawab": "Ukur lebar kuku pada bagian terlebarnya memakai penggaris atau pita ukur, satu per satu untuk kesepuluh jari. Catat dalam milimeter lalu kirimkan ke kami."
+    },
+    {
+      "tanya": "Berapa lama press-on nail bertahan?",
+      "jawab": "Bergantung pemasangan dan aktivitas harian. Dengan perekat jelly umumnya bertahan beberapa hari, dengan lem bisa lebih lama. Hindari merendam tangan terlalu lama setelah pemasangan."
+    },
+    {
+      "tanya": "Apakah bisa dipakai ulang?",
+      "jawab": "Bisa, selama pelepasannya benar. Rendam ujung jari di air hangat bercampur sabun, dorong perlahan, jangan dicungkil paksa. Bersihkan sisa lem sebelum disimpan."
+    },
+    {
+      "tanya": "Apakah merusak kuku asli?",
+      "jawab": "Tidak, selama tidak dilepas paksa. Kerusakan pada kuku asli hampir selalu berasal dari mencungkil, bukan dari produknya."
+    },
+    {
+      "tanya": "Bisa custom desain?",
+      "jawab": "Silakan tanyakan lewat WhatsApp. Ketersediaan custom bergantung tingkat kesulitan desain dan antrean pengerjaan."
+    }
+  ]
+}

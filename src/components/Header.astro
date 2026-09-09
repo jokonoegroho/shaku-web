@@ -1,6 +1,6 @@
 ---
 import '@fontsource/poppins/200.css';
-import { TAUTAN_UTAMA } from '../konfigurasi';
+import { SITUS, TAUTAN_UTAMA } from '../konfigurasi';
 import IdentitasMerek from './IdentitasMerek.astro';
 import MenuSeluler from './MenuSeluler.astro';
 
@@ -10,9 +10,9 @@ const jalurAktif = Astro.url.pathname;
 <header
   class="sticky top-0 z-40 bg-black"
 >
-  <p class="pengumuman text-center text-white">
-    GRATIS ONGKIR UNTUK SELURUH PULAU JAWA
-  </p>
+  {SITUS.tampilkanPengumuman && SITUS.pengumuman && <p class="pengumuman text-center text-white">
+    {SITUS.pengumuman}
+  </p>}
   {jalurAktif !== '/' && (
   <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:h-16 sm:px-8">
     <IdentitasMerek />

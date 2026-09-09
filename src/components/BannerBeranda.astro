@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import { getEntry } from 'astro:content';
-import wordmark from '../assets/wordmark-shaku.png';
+import { gambarMerek } from '../gambar-merek';
 import MenuSeluler from './MenuSeluler.astro';
 import PencarianBanner from './PencarianBanner.astro';
 import IdentitasMerek from './IdentitasMerek.astro';
@@ -13,6 +13,7 @@ if (!pengaturan) {
 }
 
 const { utama, slide: tambahan } = pengaturan.data;
+const { wordmark } = await gambarMerek();
 const daftar = [
   { ...utama, nama: `${SITUS.nama} — ${SITUS.subMerek}`, fokusHpX: 50, fokusHpY: 50 },
   ...tambahan.filter((s) => s.aktif),

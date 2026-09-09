@@ -1,76 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { SITUS, tautanWhatsApp } from '../konfigurasi';
+import { SITUS, isiTemplat, tautanWhatsApp } from '../konfigurasi';
+import { CARA_PESAN } from '../konten-halaman';
 
-const wa = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau pesan. Boleh dibantu?`);
-
-const langkah = [
-  {
-    judul: 'Pilih desain',
-    isi: 'Buka katalog, tentukan desain, bentuk, dan panjang yang kamu suka.',
-  },
-  {
-    judul: 'Chat WhatsApp',
-    isi: 'Tekan tombol "Pesan via WhatsApp" di halaman produk. Nama produk sudah otomatis terisi di pesan.',
-  },
-  {
-    judul: 'Kirim ukuran',
-    isi: 'Kirim hasil pengukuran kuku atau foto tangan. Kami bantu tentukan ukuran yang paling pas.',
-  },
-  {
-    judul: 'Bayar & kirim',
-    isi: 'Setelah pesanan dan ongkir disepakati, lakukan pembayaran. Paket dikirim dan nomor resi diberikan.',
-  },
-];
-
-const faq = [
-  {
-    tanya: 'Bagaimana cara mengukur kuku?',
-    jawab:
-      'Ukur lebar kuku pada bagian terlebarnya memakai penggaris atau pita ukur, satu per satu untuk kesepuluh jari. Catat dalam milimeter lalu kirimkan ke kami.',
-  },
-  {
-    tanya: 'Berapa lama press-on nail bertahan?',
-    jawab:
-      'Bergantung pemasangan dan aktivitas harian. Dengan perekat jelly umumnya bertahan beberapa hari, dengan lem bisa lebih lama. Hindari merendam tangan terlalu lama setelah pemasangan.',
-  },
-  {
-    tanya: 'Apakah bisa dipakai ulang?',
-    jawab:
-      'Bisa, selama pelepasannya benar. Rendam ujung jari di air hangat bercampur sabun, dorong perlahan, jangan dicungkil paksa. Bersihkan sisa lem sebelum disimpan.',
-  },
-  {
-    tanya: 'Apakah merusak kuku asli?',
-    jawab:
-      'Tidak, selama tidak dilepas paksa. Kerusakan pada kuku asli hampir selalu berasal dari mencungkil, bukan dari produknya.',
-  },
-  {
-    tanya: 'Bisa custom desain?',
-    jawab:
-      'Silakan tanyakan lewat WhatsApp. Ketersediaan custom bergantung tingkat kesulitan desain dan antrean pengerjaan.',
-  },
-];
+const teks = (nilai: string) => isiTemplat(nilai, { nama: SITUS.nama });
+const wa = tautanWhatsApp(teks(CARA_PESAN.ajakan.pesanWhatsApp));
 ---
 
 <Layout
-  judul="Cara Pesan"
-  deskripsi="Langkah memesan press-on nail Shaku, panduan mengukur kuku, dan pertanyaan yang sering masuk."
+  judul={teks(CARA_PESAN.meta.judul)}
+  deskripsi={teks(CARA_PESAN.meta.deskripsi)}
 >
   <section class="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-14">
-    <h1 class="judul text-3xl sm:text-5xl">Cara Pesan</h1>
+    <h1 class="judul text-3xl sm:text-5xl">{teks(CARA_PESAN.judul)}</h1>
     <p class="mt-4 text-sm leading-relaxed text-teks-redup">
-      Semua pesanan diproses lewat WhatsApp. Tidak ada keranjang belanja di situs ini —
-      supaya ukuran dan ongkir bisa dipastikan dulu sebelum kamu membayar.
+      {teks(CARA_PESAN.pengantar)}
     </p>
 
     <ol class="mt-12 space-y-8">
       {
-        langkah.map((l, i) => (
+        CARA_PESAN.langkah.map((l, i) => (
           <li class="flex gap-5">
             <span class="judul shrink-0 text-4xl text-aksen">{String(i + 1).padStart(2, '0')}</span>
             <div>
-              <h2 class="text-base font-semibold text-teks">{l.judul}</h2>
-              <p class="mt-1.5 text-sm leading-relaxed text-teks-redup">{l.isi}</p>
+              <h2 class="text-base font-semibold text-teks">{teks(l.judul)}</h2>
+              <p class="mt-1.5 text-sm leading-relaxed text-teks-redup">{teks(l.isi)}</p>
             </div>
           </li>
         ))
@@ -78,29 +32,29 @@ const faq = [
     </ol>
 
     <div class="mt-12 border-y border-garis py-6">
-      <h2 class="judul text-2xl">Siap pesan?</h2>
+      <h2 class="judul text-2xl">{teks(CARA_PESAN.ajakan.judul)}</h2>
       <p class="mt-2 text-sm text-teks-redup">
-        Chat langsung, nanti dibantu dari pemilihan desain sampai pengiriman.
+        {teks(CARA_PESAN.ajakan.deskripsi)}
       </p>
       <a
         href={wa}
         rel="noopener"
         class="tombol mt-5 bg-aksen px-7 py-3 text-di-aksen transition-colors hover:bg-aksen-terang"
       >
-        Chat WhatsApp
+        {teks(CARA_PESAN.ajakan.tombol)}
       </a>
     </div>
 
-    <h2 class="judul mt-20 text-3xl">Pertanyaan Umum</h2>
+    <h2 class="judul mt-20 text-3xl">{teks(CARA_PESAN.judulFaq)}</h2>
     <div class="mt-8 divide-y divide-garis border-y border-garis">
       {
-        faq.map((f) => (
+        CARA_PESAN.faq.map((f) => (
           <details class="group py-5">
             <summary class="flex cursor-pointer items-center justify-between gap-4 text-sm font-medium text-teks">
-              {f.tanya}
+              {teks(f.tanya)}
               <span class="text-aksen transition group-open:rotate-45">+</span>
             </summary>
-            <p class="mt-3 text-sm leading-relaxed text-teks-redup">{f.jawab}</p>
+            <p class="mt-3 text-sm leading-relaxed text-teks-redup">{teks(f.jawab)}</p>
           </details>
         ))
       }

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { formatRupiah } from '../konfigurasi';
+import FotoBelumTersedia from './FotoBelumTersedia.astro';
 
 interface Props {
   produk: CollectionEntry<'produk'>[];
@@ -16,14 +17,14 @@ const { produk } = Astro.props;
       produk.map((p, i) => (
         <a href={`/katalog/${p.id}/`} class="slide" data-slide>
           <div class="aspect-4/5 bg-latar-2">
-            <Image
+            {p.data.foto[0] ? <Image
               src={p.data.foto[0]}
               alt={`Press-on nail ${p.data.nama}`}
               widths={[320, 480, 640, 960]}
               sizes="(max-width: 639px) 76vw, (max-width: 1023px) 45vw, 360px"
               loading={i < 3 ? 'eager' : 'lazy'}
               class="h-full w-full object-contain"
-            />
+            /> : <FotoBelumTersedia />}
           </div>
           <div class="pt-3">
             <p class="text-sm font-medium">{p.data.nama}</p>

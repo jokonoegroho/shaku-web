@@ -32,7 +32,7 @@ const produk = defineCollection({
       /** Jumlah keping kuku dalam satu set. */
       jumlahKuku: z.number().int().positive().default(24),
       /** Foto pertama dipakai sebagai gambar utama di katalog. */
-      foto: z.array(image()).min(1),
+      foto: z.array(image()).nullish().transform((nilai) => nilai ?? []),
       tersedia: z.boolean().default(true),
       unggulan: z.boolean().default(false),
       /** Angka kecil tampil lebih dulu di katalog. */
@@ -65,4 +65,11 @@ const banner = defineCollection({
   },
 });
 
-export const collections = { produk, banner };
+const identitas = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/data/identitas' }),
+  schema: ({ image }) => z.object({
+    logo: image(), wordmark: image(), favicon: image(), ikonHp: image(), berbagi: image(),
+  }),
+});
+
+export const collections = { produk, banner, identitas };

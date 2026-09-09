@@ -1,11 +1,9 @@
 ---
 nama: RED BUTTERFLY
 ringkasan: desain butterfly dengan sentuhan chrome dipadukan warna red cat eye
-foto:
-  - '@assets/produk/FullSizeRender.jpeg'
-  - '@assets/produk/FullSizeRender.jpeg'
-harga: 90
-hargaCoret: 110
+foto: []
+harga: 90000
+hargaCoret: 110000
 bentuk: almond
 panjang: sedang
 warna:

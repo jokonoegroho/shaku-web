@@ -1,13 +1,13 @@
 ---
-import { SITUS, tautanWhatsApp } from '../konfigurasi';
+import { SITUS, pesanUmum, tautanWhatsApp } from '../konfigurasi';
 
-const tautan = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`);
+const tautan = tautanWhatsApp(pesanUmum());
 ---
 
 <a
   href={tautan}
   rel="noopener"
-  aria-label="Chat WhatsApp"
+  aria-label={SITUS.labelWa}
   class="tombol-wa fixed right-4 bottom-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-black text-white"
 >
   <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

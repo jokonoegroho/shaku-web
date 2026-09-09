@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/logo-shaku.png';
-import { SITUS, tautanWhatsApp } from '../konfigurasi';
+import { gambarMerek } from '../gambar-merek';
+import { SITUS, TAUTAN_UTAMA, pesanUmum, tautanWhatsApp } from '../konfigurasi';
 
 const tahun = new Date().getFullYear();
-const waUmum = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`);
+const { logo } = await gambarMerek();
+const waUmum = tautanWhatsApp(pesanUmum());
 ---
 
 <footer class="border-t border-garis bg-latar-2">
@@ -30,16 +31,16 @@ const waUmum = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`)
     </div>
 
     <div>
-      <p class="text-sm font-semibold text-teks">Jelajahi</p>
+      <p class="text-sm font-semibold text-teks">{SITUS.footer.jelajahi}</p>
       <ul class="mt-4 space-y-2 text-sm text-teks-redup">
-        <li><a class="hover:text-aksen" href="/katalog/">Katalog</a></li>
-        <li><a class="hover:text-aksen" href="/cara-pesan/">Cara Pesan</a></li>
-        <li><a class="hover:text-aksen" href="/tentang/">Tentang</a></li>
+        {TAUTAN_UTAMA.slice(1).map((t) => (
+          <li><a class="hover:text-aksen" href={t.href}>{t.label}</a></li>
+        ))}
       </ul>
     </div>
 
     <div>
-      <p class="text-sm font-semibold text-teks">Hubungi</p>
+      <p class="text-sm font-semibold text-teks">{SITUS.footer.hubungi}</p>
       <ul class="mt-4 space-y-2 text-sm text-teks-redup">
         <li><a class="hover:text-aksen" href={waUmum} rel="noopener">WhatsApp</a></li>
         {
@@ -73,7 +74,7 @@ const waUmum = tautanWhatsApp(`Halo ${SITUS.nama}, saya mau tanya soal produk.`)
 
   <div class="border-t border-garis/60 px-4 py-6">
     <p class="mx-auto max-w-6xl text-xs text-teks-redup">
-      © {tahun} {SITUS.nama}. Seluruh hak cipta dilindungi.
+      © {tahun} {SITUS.nama}. {SITUS.footer.hakCipta}
     </p>
   </div>
 </footer>

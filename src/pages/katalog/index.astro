@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import KartuProduk from '../../components/KartuProduk.astro';
+import { KATALOG } from '../../konten';
 
 const produk = (await getCollection('produk')).sort(
   (a, b) => a.data.urutan - b.data.urutan,
@@ -17,33 +18,33 @@ const panjangTersedia = panjangUrut.filter((p) =>
 ---
 
 <Layout
-  judul="Katalog"
-  deskripsi="Semua desain press-on nail yang tersedia. Saring berdasarkan bentuk dan panjang kuku."
+  judul={KATALOG.judul}
+  deskripsi={KATALOG.deskripsi}
 >
   <section class="mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">
-    <h1 class="judul text-3xl sm:text-5xl">Katalog</h1>
+    <h1 class="judul text-3xl sm:text-5xl">{KATALOG.judul}</h1>
     <p class="mt-3 text-sm text-teks-redup" role="status">
-      <span id="jumlah-tampil">{produk.length}</span> desain tersedia.
+      <span id="jumlah-tampil">{produk.length}</span> {KATALOG.jumlah}
     </p>
 
     <form action="/katalog/" method="get" role="search" class="mt-6 flex gap-2">
-      <label for="cari-produk" class="sr-only">Cari produk</label>
+      <label for="cari-produk" class="sr-only">{KATALOG.labelCari}</label>
       <input
         id="cari-produk"
         type="search"
         name="q"
-        placeholder="Cari nama, bentuk, atau warna..."
+        placeholder={KATALOG.placeholderCari}
         class="min-h-11 min-w-0 flex-1 rounded border border-garis px-3 text-base"
       />
-      <button type="submit" class="tombol border border-garis px-5">Cari</button>
+      <button type="submit" class="tombol border border-garis px-5">{KATALOG.cari}</button>
     </form>
 
     <!-- Filter: murni di sisi pengunjung, tanpa muat ulang halaman. -->
     <div class="mt-8 space-y-4">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">Bentuk</span>
+        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">{KATALOG.bentuk}</span>
         <button type="button" data-jenis="bentuk" data-nilai="semua" class="tombol-filter aktif">
-          Semua
+          {KATALOG.semua}
         </button>
         {
           bentukTersedia.map((b) => (
@@ -55,9 +56,9 @@ const panjangTersedia = panjangUrut.filter((p) =>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">Panjang</span>
+        <span class="mr-1 text-xs tracking-widest text-teks-redup uppercase">{KATALOG.panjang}</span>
         <button type="button" data-jenis="panjang" data-nilai="semua" class="tombol-filter aktif">
-          Semua
+          {KATALOG.semua}
         </button>
         {
           panjangTersedia.map((p) => (
@@ -74,7 +75,7 @@ const panjangTersedia = panjangUrut.filter((p) =>
     </div>
 
     <p id="pesan-kosong" class="mt-12 hidden text-center text-sm text-teks-redup">
-      Tidak ada desain yang cocok dengan pilihan itu.
+      {KATALOG.kosong}
     </p>
   </section>
 </Layout>

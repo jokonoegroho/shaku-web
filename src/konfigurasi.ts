@@ -4,30 +4,32 @@
  * supaya tidak tersebar di banyak berkas.
  */
 
+import { PENGATURAN } from './konten';
+
 export const SITUS = {
-  nama: 'SHA.KU',
-  namaLengkap: 'SHA.KU — Press-On Nail by Gorgeousblom.nailart',
-  subMerek: 'By.Gorgeousblom.nailart',
+  ...PENGATURAN,
   domain: 'https://shaku.id',
-  deskripsi:
-    'Press-on nail siap pakai. Kuku cantik dalam hitungan menit, tanpa perlu ke salon.',
-  /**
-   * GANTI dengan nomor WhatsApp asli, format internasional tanpa tanda plus.
-   * Contoh: 6281234567890
-   */
-  whatsapp: '62882005359524',
-  instagram: '', // isi username tanpa @, kosongkan bila belum ada
-  tiktok: '', // isi username tanpa @, kosongkan bila belum ada
-  email: '', // kosongkan bila belum ada
-  kota: 'Indonesia',
 } as const;
 
 export const TAUTAN_UTAMA = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Katalog', href: '/katalog/' },
-  { label: 'Cara Pesan', href: '/cara-pesan/' },
-  { label: 'Tentang', href: '/tentang/' },
+  { label: SITUS.menu.beranda, href: '/' },
+  { label: SITUS.menu.katalog, href: '/katalog/' },
+  { label: SITUS.menu.caraPesan, href: '/cara-pesan/' },
+  { label: SITUS.menu.tentang, href: '/tentang/' },
 ];
+
+/** Pengganti variabel hanya sekali, agar isi nama produk tidak ditafsirkan ulang. */
+export function isiTemplat(teks: string, nilai: Record<string, string>): string {
+  return teks.replace(/\{(\w+)\}/g, (asli, kunci: string) => nilai[kunci] ?? asli);
+}
+
+export function pesanUmum(): string {
+  return isiTemplat(SITUS.pesanUmum, { nama: SITUS.nama });
+}
+
+export function pesanTerjual(namaProduk: string): string {
+  return isiTemplat(SITUS.pesanTerjual, { nama: SITUS.nama, produk: namaProduk });
+}
 
 /** Mata uang rupiah tanpa desimal. */
 export function formatRupiah(nilai: number): string {
@@ -49,7 +51,7 @@ export function tautanWhatsApp(pesan: string): string {
 
 /** Pesan pemesanan untuk satu produk tertentu. */
 export function pesanProduk(namaProduk: string, harga: number): string {
-  return `Halo ${SITUS.nama}, saya mau pesan "${namaProduk}" (${formatRupiah(
-    harga,
-  )}). Apakah masih tersedia?`;
+  return isiTemplat(SITUS.pesanPesan, {
+    nama: SITUS.nama, produk: namaProduk, harga: formatRupiah(harga),
+  });
 }

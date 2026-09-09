@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { formatRupiah } from '../konfigurasi';
+import { KATALOG } from '../konten';
+import FotoBelumTersedia from './FotoBelumTersedia.astro';
 
 interface Props {
   produk: CollectionEntry<'produk'>;
@@ -26,20 +28,20 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
 >
   <a href={`/katalog/${produk.id}/`} class="block">
     <div class="relative aspect-4/5 overflow-hidden bg-latar-2">
-      <Image
+      {d.foto[0] ? <Image
         src={d.foto[0]}
         alt={`Press-on nail ${d.nama}`}
         widths={[320, 480, 640]}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
         loading={prioritas ? 'eager' : 'lazy'}
         class="h-full w-full object-contain"
-      />
+      /> : <FotoBelumTersedia />}
 
       {
         !d.tersedia && (
           <div class="absolute bottom-3 left-3">
             <span class="bg-latar px-3 py-1.5 text-[10px] font-medium tracking-wide text-teks-redup">
-              TERJUAL
+              {KATALOG.terjualKartu}
             </span>
           </div>
         )
@@ -57,7 +59,7 @@ const diskon = d.hargaCoret && d.hargaCoret > d.harga
     <div class="pt-3 pb-4">
       <h3 class="text-sm font-medium text-teks">{d.nama}</h3>
       <p class="mt-1 text-xs text-teks-redup capitalize">
-        {d.bentuk} · {d.panjang} · {d.jumlahKuku} pcs
+        {d.bentuk} · {d.panjang} · {d.jumlahKuku} {KATALOG.satuanKartu}
       </p>
       <p class="mt-2 flex flex-wrap items-baseline gap-2">
         <span class="text-sm text-teks">{formatRupiah(d.harga)}</span>

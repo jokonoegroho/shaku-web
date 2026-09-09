@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "judul": "Tentang",
+    "deskripsi": "Tentang {nama}, toko press-on nail yang menjual desain siap pakai untuk dipasang sendiri di rumah."
+  },
+  "judul": "Tentang {nama}",
+  "paragraf": [
+    "{nama} menjual press-on nail siap pakai: kuku palsu berkualitas yang bisa dipasang sendiri di rumah, tanpa perlu janji temu di salon dan tanpa alat khusus.",
+    "Setiap set berisi sepuluh ukuran berbeda supaya lebih mudah menemukan yang pas, lengkap dengan lem, perekat jelly, kikir, dan pendorong kutikula.",
+    "Kami sengaja tidak memakai keranjang belanja otomatis. Setiap pesanan diobrolkan dulu lewat WhatsApp supaya ukuran, ketersediaan, dan ongkir jelas sebelum kamu membayar. Lebih repot sedikit, tapi lebih kecil kemungkinan salah beli."
+  ],
+  "ajakan": {
+    "judul": "Punya pertanyaan?",
+    "deskripsi": "Silakan chat, tidak harus langsung beli.",
+    "tombol": "Chat WhatsApp",
+    "pesanWhatsApp": "Halo {nama}, saya mau tanya-tanya dulu."
+  }
+}

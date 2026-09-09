@@ -1,3 +1,7 @@
+---
+import { KATALOG } from '../konten';
+---
+
 <div data-pencarian-banner>
   <a
     href="/katalog/"
@@ -18,8 +22,8 @@
       </svg>
     </button>
     <form action="/katalog/" method="get" role="search" class="form-pencarian">
-      <input type="search" name="q" placeholder="Cari desain..." aria-label="Cari produk" required autofocus />
-      <button type="submit" aria-label="Cari">
+      <input type="search" name="q" placeholder={KATALOG.placeholderBanner} aria-label={KATALOG.labelCari} required autofocus />
+      <button type="submit" aria-label={KATALOG.cari}>
         <svg width="32" height="24" viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M2 12h27m-9-9 9 9-9 9" />
         </svg>

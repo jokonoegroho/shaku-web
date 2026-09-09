@@ -4,6 +4,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import TombolWaMengambang from '../components/TombolWaMengambang.astro';
 import { SITUS } from '../konfigurasi';
+import { getImage } from 'astro:assets';
+import { gambarMerek } from '../gambar-merek';
 
 interface Props {
   judul: string;
@@ -12,11 +14,17 @@ interface Props {
   gambarOg?: string;
 }
 
-const { judul, deskripsi = SITUS.deskripsi, gambarOg = '/og.png' } = Astro.props;
+const { judul, deskripsi = SITUS.deskripsi, gambarOg } = Astro.props;
+const gambar = await gambarMerek();
+const [favicon, ikonHp, berbagi] = await Promise.all([
+  getImage({ src: gambar.favicon, width: 32, height: 32, format: 'png' }),
+  getImage({ src: gambar.ikonHp, width: 180, height: 180, format: 'png' }),
+  getImage({ src: gambar.berbagi, width: 1200, format: 'png' }),
+]);
 
 const judulPenuh = judul === SITUS.nama ? SITUS.namaLengkap : `${judul} — ${SITUS.nama}`;
 const urlKanonik = new URL(Astro.url.pathname, Astro.site ?? SITUS.domain).href;
-const urlGambar = new URL(gambarOg, Astro.site ?? SITUS.domain).href;
+const urlGambar = new URL(gambarOg ?? berbagi.src, Astro.site ?? SITUS.domain).href;
 ---
 
 <!doctype html>
@@ -27,8 +35,8 @@ const urlGambar = new URL(gambarOg, Astro.site ?? SITUS.domain).href;
     <title>{judulPenuh}</title>
     <meta name="description" content={deskripsi} />
     <link rel="canonical" href={urlKanonik} />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href={favicon.src} />
+    <link rel="apple-touch-icon" href={ikonHp.src} />
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
 

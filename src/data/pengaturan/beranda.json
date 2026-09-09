@@ -1,0 +1,26 @@
+{
+  "judul": "Kuku cantik tanpa ke salon.",
+  "jargon": "Sha.ku one of one",
+  "subJargon": "A design made only for you",
+  "judulKatalog": "Katalog desain",
+  "tautanKatalog": "Lihat katalog →",
+  "tampilkanKeunggulan": true,
+  "keunggulan": [
+    {
+      "judul": "Pasang sendiri 10 menit",
+      "isi": "Tidak perlu janji temu, tidak perlu ke salon. Semua alat sudah termasuk dalam satu paket."
+    },
+    {
+      "judul": "Bisa dipakai ulang",
+      "isi": "Lepas dengan benar, bersihkan sisa lem, lalu simpan. Satu set bisa dipakai berkali-kali."
+    },
+    {
+      "judul": "Sepuluh ukuran per set",
+      "isi": "Isi 24 keping dengan sepuluh ukuran berbeda, jadi lebih mudah menemukan yang pas."
+    }
+  ],
+  "tampilkanAjakan": true,
+  "ajakanJudul": "Bingung pilih yang mana?",
+  "ajakanIsi": "Kirim foto tanganmu lewat WhatsApp, nanti dibantu pilihkan bentuk dan ukuran yang paling pas.",
+  "ajakanTombol": "Chat sekarang"
+}

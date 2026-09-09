@@ -1,6 +1,6 @@
-# Panel admin — mengelola produk lewat browser
+# Panel admin — mengelola konten situs lewat browser
 
-Panel ini membuat penambahan dan pengubahan produk bisa dilakukan dari HP,
+Panel ini membuat penambahan dan pengubahan konten bisa dilakukan dari HP,
 tanpa membuka laptop dan tanpa menyentuh berkas apa pun.
 
 Alamatnya: **https://shaku.id/admin/**
@@ -152,6 +152,55 @@ untuk hal lain di akun Anda.
 2. Tekan **Sign In Using Access Token**, tempel token, masuk
 3. Pilih **Produk**
 
+### Menu pengelolaan konten
+
+| Menu | Yang bisa diubah |
+| --- | --- |
+| Pengaturan Situs | Nama merek, judul dan deskripsi situs, submerek, kontak, bar gratis ongkir, nama menu, footer, dan pesan WhatsApp. |
+| Teks Beranda | Judul di bawah banner, jargon, daftar keunggulan beserta judul/isinya, tautan katalog, dan ajakan WhatsApp. |
+| Teks Katalog dan Produk | Teks pencarian, filter, satuan isi paket, status terjual, tombol pemesanan, dan panduan ukuran. |
+| Halaman Informasi | Isi halaman Cara Pesan, Tentang, serta pesan halaman tidak ditemukan. |
+| Logo dan Tulisan Merek | Logo bulat, gambar tulisan merek, ikon browser/HP, dan gambar saat tautan dibagikan. |
+| Banner Beranda | Foto utama, foto slide berikutnya, urutan, dan status tampil. |
+| Produk | Nama, harga, stok, foto, atribut, ringkasan, dan deskripsi setiap produk. |
+
+Untuk mengedit tiga tulisan seperti **Pasang sendiri 10 menit**, buka
+**Teks Beranda → Tulisan di bawah banner sampai sebelum footer →
+5. Keunggulan setelah daftar produk**. Setiap item memiliki kolom
+**Judul keunggulan** dan **Paragraf keunggulan**. Item bisa ditambah,
+dihapus, atau dipindah urutannya.
+Bagian keunggulan dan ajakan WhatsApp juga bisa disembunyikan melalui sakelar.
+
+Buka entri di dalam menu untuk melihat tulisan lengkap yang tersimpan, bukan
+hanya nama bagiannya. Kolom beranda diberi nomor sesuai letaknya dari atas
+ke bawah. Petunjuk di bawah kolom menjelaskan posisi tulisan; teks khusus
+mesin pencari, pembaca layar, dan pesan WhatsApp diberi keterangan tersendiri.
+Kelompok menu, footer, keunggulan, langkah, FAQ, dan paragraf dibuka secara
+bawaan agar isinya tidak tersembunyi.
+
+Panel lokal dengan backend GitHub tetap membaca konten dari branch `main`,
+bukan JSON lokal. Karena itu, koleksi baru bisa tampak kosong sebelum berkas
+kontennya dikirim ke GitHub. Jangan mengisi ulang koleksi kosong untuk
+mengatasi hal ini; terbitkan kode dan data yang sudah disiapkan, lalu muat
+ulang panel.
+
+Nama menu dapat diubah, tetapi alamat halaman tetap agar tautan yang telah
+dibagikan tidak rusak. Nomor WhatsApp memakai kode negara tanpa tanda plus
+atau spasi. Instagram dan TikTok diisi username saja, tanpa `@` atau URL;
+kosongkan untuk menyembunyikan tautannya.
+
+Pesan WhatsApp mendukung variabel `{nama}`, `{produk}`, dan `{harga}` sesuai
+petunjuk setiap kolom. Teks biasa bukan HTML. Perubahan nama merek tidak
+mengubah huruf di dalam gambar wordmark; ganti gambarnya secara terpisah.
+Pengaturan gambar merek diterapkan ke situs; ikon panel admin tetap memakai
+ikon bawaan yang ada di folder `public`.
+
+Konten awal tetap sama seperti versi sebelumnya. Pengaturan ini tidak
+mengubah tema, font, layout, domain, atau konfigurasi deploy/router.
+Penambahan menu editor memerlukan deploy kode terlebih dahulu. Setelah editor
+tersedia di situs, simpan konten lewat admin untuk memicu penerbitan otomatis.
+Muat ulang panel sebelum mengedit jika ada pembaruan dari sesi lain.
+
 Menambah produk baru: tekan tombol tambah, isi kolomnya, unggah foto
 langsung dari galeri HP, lalu simpan.
 
@@ -168,7 +217,7 @@ jadi mati.
 | --- | --- |
 | Nama produk | Menentukan alamat halaman. Sebaiknya jangan diubah setelah dibagikan ke pelanggan, karena tautan lama akan mati. |
 | Ringkasan singkat | Maksimal 160 huruf. Panel menolak bila lebih. |
-| Foto produk | Boleh lebih dari satu. Yang pertama jadi gambar utama di katalog. |
+| Foto produk | Boleh kosong atau lebih dari satu. Yang pertama jadi gambar utama; jika kosong tampil keterangan foto belum tersedia. |
 | Harga coret | Kosongkan bila tidak sedang diskon. |
 | Urutan tampil | Angka lebih kecil tampil lebih dulu. |
 

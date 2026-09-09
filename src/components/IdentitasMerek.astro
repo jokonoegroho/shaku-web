@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/logo-shaku.png';
-import wordmark from '../assets/wordmark-shaku.png';
+import { gambarMerek } from '../gambar-merek';
 import { SITUS } from '../konfigurasi';
+const { logo, wordmark } = await gambarMerek();
 ---
 
 <a href="/" class="identitas-merek flex items-center gap-2" aria-label={`Beranda ${SITUS.nama}`}>
