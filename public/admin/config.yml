@@ -17,9 +17,9 @@ backend:
   # Sengaja begitu: cara ini tidak butuh server perantara sama sekali.
   auth_methods: [token]
   commit_messages:
-    create: 'Tambah produk {{slug}}'
-    update: 'Ubah produk {{slug}}'
-    delete: 'Hapus produk {{slug}}'
+    create: 'Tambah konten {{collection}} {{slug}}'
+    update: 'Ubah konten {{collection}} {{slug}}'
+    delete: 'Hapus konten {{collection}} {{slug}}'
     uploadMedia: 'Tambah foto {{path}}'
     deleteMedia: 'Hapus foto {{path}}'
 
@@ -32,6 +32,74 @@ media_folder: /src/assets/produk
 public_folder: '@assets/produk'
 
 collections:
+  - name: banner
+    label: Banner Beranda
+    description: >-
+      Kelola foto slideshow beranda. Banner SHA.KU selalu pertama (3 detik),
+      diikuti slide aktif sesuai urutan daftar (masing-masing 6 detik).
+    media_folder: /src/assets/banner
+    public_folder: '@assets/banner'
+    files:
+      - name: beranda
+        label: Foto dan urutan slideshow
+        file: src/data/banner/beranda.json
+        fields:
+          - label: Banner utama SHA.KU
+            name: utama
+            widget: object
+            hint: Selalu tampil pertama. Tulisan SHA.KU di tengah dipasang otomatis.
+            fields:
+              - label: Foto desktop
+                name: foto
+                widget: image
+              - label: Foto HP
+                name: fotoHp
+                widget: image
+                required: false
+                hint: Opsional. Jika kosong, memakai foto desktop.
+          - label: Slide setelah banner utama
+            name: slide
+            widget: list
+            required: false
+            default: []
+            collapsed: true
+            summary: '{{fields.nama}}'
+            hint: Geser urutan item untuk mengatur slideshow. Daftar boleh kosong.
+            fields:
+              - label: Nama atau deskripsi foto
+                name: nama
+                widget: string
+                hint: Dipakai sebagai deskripsi gambar untuk aksesibilitas.
+              - label: Tampilkan slide
+                name: aktif
+                widget: boolean
+                default: true
+                hint: Matikan untuk menyembunyikan tanpa menghapus foto.
+              - label: Foto desktop
+                name: foto
+                widget: image
+              - label: Foto HP
+                name: fotoHp
+                widget: image
+                required: false
+                hint: Opsional. Foto tegak cocok untuk HP. Jika kosong, memakai foto desktop.
+              - label: Fokus foto HP - horizontal (%)
+                name: fokusHpX
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                default: 50
+                hint: 0 kiri, 50 tengah, 100 kanan.
+              - label: Fokus foto HP - vertikal (%)
+                name: fokusHpY
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                default: 50
+                hint: 0 atas, 50 tengah, 100 bawah.
+
   - name: produk
     label: Produk
     label_singular: Produk

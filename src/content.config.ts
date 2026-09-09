@@ -41,4 +41,28 @@ const produk = defineCollection({
     }),
 });
 
-export const collections = { produk };
+const banner = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/data/banner' }),
+  schema: ({ image }) => {
+    const fotoHp = z.preprocess(
+      (nilai) => nilai === '' || nilai === null ? undefined : nilai,
+      image().optional(),
+    );
+    return z.object({
+      utama: z.object({
+        foto: image(),
+        fotoHp,
+      }),
+      slide: z.array(z.object({
+        nama: z.string().trim().min(1),
+        aktif: z.boolean().default(true),
+        foto: image(),
+        fotoHp,
+        fokusHpX: z.number().min(0).max(100).default(50),
+        fokusHpY: z.number().min(0).max(100).default(50),
+      })).nullish().transform((nilai) => nilai ?? []),
+    });
+  },
+});
+
+export const collections = { produk, banner };

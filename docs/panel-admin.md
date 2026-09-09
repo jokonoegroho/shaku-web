@@ -176,6 +176,27 @@ Foto tidak perlu dikecilkan dulu. Astro yang mengecilkan dan mengubahnya ke
 WebP saat build, dalam beberapa ukuran sekaligus. Foto dari kamera HP
 langsung boleh.
 
+## Mengelola slideshow beranda
+
+Pilih **Banner Beranda → Foto dan urutan slideshow** di panel admin.
+Foto banner tersimpan di `src/assets/banner/`, terpisah dari foto produk.
+
+- **Banner utama SHA.KU**: ganti foto desktop dan, bila perlu, foto HP.
+  Banner ini selalu pertama selama 3 detik. Tulisan SHA.KU dan submerek
+  di tengah tetap dipasang otomatis; gunakan foto tanpa tulisan tambahan.
+- **Slide setelah banner utama**: tambah, hapus, atau geser urutan item.
+  Masing-masing slide aktif tampil 6 detik. Matikan **Tampilkan slide**
+  untuk menyembunyikannya tanpa menghapus item.
+- **Foto HP** boleh kosong; situs akan menggunakan foto desktop.
+  Atur fokus horizontal/vertikal jika bagian penting foto HP terpotong.
+- Daftar slide tambahan boleh kosong. Banner utama tetap tampil tanpa
+  kontrol slideshow.
+
+Empat slide yang sudah digunakan situs tersedia sebagai data awal.
+Simpan perubahan untuk memicu build dan penerbitan otomatis seperti produk.
+Menghapus item slide tidak otomatis menghapus berkas fotonya; jangan hapus
+foto dari pustaka media bila masih digunakan item lain.
+
 ---
 
 ## Sisi router: container penarik

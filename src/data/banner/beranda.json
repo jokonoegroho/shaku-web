@@ -1,0 +1,40 @@
+{
+  "utama": {
+    "foto": "@assets/banner/shaku-desktop.webp",
+    "fotoHp": "@assets/banner/shaku-hp.webp"
+  },
+  "slide": [
+    {
+      "nama": "Kuku putih polkadot",
+      "aktif": true,
+      "foto": "@assets/banner/polkadot.webp",
+      "fotoHp": "@assets/banner/polkadot-hp.webp",
+      "fokusHpX": 50,
+      "fokusHpY": 50
+    },
+    {
+      "nama": "Kuku hitam dengan garis putih",
+      "aktif": true,
+      "foto": "@assets/banner/hitam.webp",
+      "fotoHp": "@assets/banner/hitam-hp.webp",
+      "fokusHpX": 50,
+      "fokusHpY": 50
+    },
+    {
+      "nama": "Kuku putih motif daun",
+      "aktif": true,
+      "foto": "@assets/banner/daun.webp",
+      "fotoHp": "@assets/banner/daun-hp.webp",
+      "fokusHpX": 50,
+      "fokusHpY": 50
+    },
+    {
+      "nama": "Foto iklan kuku french dengan hiasan kristal",
+      "aktif": true,
+      "foto": "@assets/banner/iklan-french.jpg",
+      "fotoHp": "@assets/banner/iklan-french-hp.webp",
+      "fokusHpX": 20,
+      "fokusHpY": 50
+    }
+  ]
+}
