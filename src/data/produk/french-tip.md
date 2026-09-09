@@ -10,7 +10,7 @@ panjang: pendek
 warna:
   - putih
   - bening
-jumlahKuku: 24
+jumlahKuku: 10
 tersedia: true
 unggulan: true
 urutan: 30
