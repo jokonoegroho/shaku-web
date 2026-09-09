@@ -272,10 +272,16 @@ const slide = await Promise.all(daftar.map(async (s) => ({
         tampilkan(aktif + (jarak < 0 ? 1 : -1));
       });
       gerak.addEventListener('change', () => { berjalan = false; });
-      window.setInterval(() => {
-        if (!berjalan || document.hidden || banner.matches(':hover') || banner.contains(document.activeElement)) return;
-        tampilkan(aktif + 1);
-      }, 6000);
+      const jadwalkanSlide = () => {
+        window.setTimeout(() => {
+          if (!berjalan) return;
+          if (!document.hidden && !banner.matches(':hover') && !banner.contains(document.activeElement)) {
+            tampilkan(aktif + 1);
+          }
+          jadwalkanSlide();
+        }, aktif === 0 ? 3000 : 6000);
+      };
+      jadwalkanSlide();
     }
   }
 </script>
