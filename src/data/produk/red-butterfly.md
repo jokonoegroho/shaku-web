@@ -15,7 +15,7 @@ unggulan: false
 urutan: 1
 ---
 
-Tampil cantik tanpa perlu buang waktu dan biaya mahal ke salon. Press-on nails kami dirancang khusus menggunakan gel berkualitastinggi yang tahan lama, reusable (bisa dipakai berulang kali), dan sangat praktis dipasang sendiri dalam kurun waktu kurang dari 10 menit.
+Tampil cantik tanpa perlu buang waktu dan biaya mahal ke salon. Press-on nails kami dirancang khusus menggunakan gel berkualitas tinggi yang tahan lama, reusable (bisa dipakai berulang kali), dan sangat praktis dipasang sendiri dalam kurun waktu kurang dari 10 menit.
 
 Spesifikasi Produk
 
