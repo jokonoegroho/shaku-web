@@ -1,0 +1,457 @@
+# Konfigurasi panel admin (Sveltia CMS)
+#
+# Panel ini dibuka di https://shaku.id/admin/ dan menyimpan perubahan
+# langsung sebagai commit ke repo GitHub. Setelah commit masuk, GitHub
+# Actions membangun ulang situs secara otomatis.
+#
+# ============================================================
+# WAJIB DIGANTI: baris "repo" di bawah harus diisi nama akun
+# GitHub Anda, contoh: budi-nailart/shaku-web
+# ============================================================
+
+backend:
+  name: github
+  repo: jokonoegroho/shaku-web
+  branch: main
+  # Masuk pakai token GitHub, bukan tombol "Login with GitHub".
+  # Sengaja begitu: cara ini tidak butuh server perantara sama sekali.
+  auth_methods: [token]
+  commit_messages:
+    create: 'Tambah konten {{collection}} {{slug}}'
+    update: 'Ubah konten {{collection}} {{slug}}'
+    delete: 'Hapus konten {{collection}} {{slug}}'
+    uploadMedia: 'Tambah foto {{path}}'
+    deleteMedia: 'Hapus foto {{path}}'
+
+# Foto diunggah ke folder aslinya supaya tetap diproses (dikecilkan dan
+# dikonversi ke WebP) oleh Astro saat build. Jangan diarahkan ke public/.
+media_folder: /src/assets/produk
+# Jalur yang ditulis ke dalam berkas produk. Sveltia mewajibkan jalur absolut
+# atau alias berawalan "@"; alias @assets sudah didaftarkan di astro.config.mjs
+# dan tsconfig.json, jadi Astro tetap bisa memproses fotonya.
+public_folder: '@assets/produk'
+
+collections:
+  - name: pengaturan
+    label: Pengaturan Situs
+    description: Tulisan yang dipakai bersama di seluruh situs. Buka entri untuk melihat isi lengkap; petunjuk setiap kolom menjelaskan letaknya.
+    files:
+      - name: situs
+        label: Bar paling atas, merek, menu, dan footer
+        file: src/data/pengaturan/situs.json
+        fields:
+          - {label: Tampilkan bar pengumuman, name: tampilkanPengumuman, widget: boolean, default: true, hint: Letak - bar hitam paling atas di semua halaman.}
+          - {label: Tulisan di bar hitam paling atas, name: pengumuman, widget: text, required: false, hint: Letak - pengumuman di atas banner atau navigasi.}
+          - {label: Nama merek, name: nama, widget: string, hint: Dipakai pada judul tab beranda dan teks yang memakai variabel nama. Tulisan dalam gambar logo tidak berubah.}
+          - {label: Submerek di tengah banner pertama, name: subMerek, widget: text, hint: Letak - tepat di bawah gambar tulisan SHA.KU besar pada slide pertama beranda.}
+          - label: Nama menu navigasi
+            name: menu
+            widget: object
+            collapsed: false
+            hint: Letak - menu hamburger dan navigasi halaman selain beranda; juga dipakai di footer. Hanya tulisan yang berubah, bukan alamatnya.
+            fields:
+              - {label: Menu menuju beranda, name: beranda, widget: string, hint: Juga dipakai pada tautan kembali ke beranda di atas detail produk.}
+              - {label: Menu menuju katalog, name: katalog, widget: string, hint: Juga dipakai pada tautan kembali ke katalog di atas detail produk.}
+              - {label: Menu menuju cara pesan, name: caraPesan, widget: string, hint: Membuka halaman langkah pemesanan dan pertanyaan umum.}
+              - {label: Menu menuju tentang toko, name: tentang, widget: string, hint: Membuka halaman cerita tentang toko.}
+          - label: Deskripsi situs dan footer
+            name: deskripsi
+            widget: text
+            pattern: ['^[\s\S]{1,300}$', 'Maksimal 300 karakter.']
+            hint: Letak - paragraf di bawah identitas merek pada footer paling bawah; juga menjadi deskripsi bawaan mesin pencari.
+          - label: Tulisan footer paling bawah
+            name: footer
+            widget: object
+            collapsed: false
+            hint: Letak - bagian penutup di bawah isi setiap halaman.
+            fields:
+              - {label: Judul di atas daftar menu, name: jelajahi, widget: string, hint: Letak - kolom navigasi footer.}
+              - {label: Judul di atas kontak toko, name: hubungi, widget: string, hint: Letak - kolom WhatsApp dan media sosial di footer.}
+              - {label: Keterangan hak cipta, name: hakCipta, widget: text, hint: Letak - baris terbawah setelah tahun dan nama toko.}
+          - label: Nomor WhatsApp
+            name: whatsapp
+            widget: string
+            pattern: ['^[1-9][0-9]{7,14}$', 'Kode negara dan nomor saja, tanpa + atau spasi.']
+            hint: Tujuan semua tombol pemesanan dan tautan WhatsApp di footer. Contoh 6281234567890.
+          - label: Instagram
+            name: instagram
+            widget: string
+            required: false
+            pattern: ['^[A-Za-z0-9._]*$', 'Username saja, tanpa @ atau tautan.']
+            hint: Letak - tautan Instagram di footer. Kosongkan untuk menyembunyikannya.
+          - label: TikTok
+            name: tiktok
+            widget: string
+            required: false
+            pattern: ['^[A-Za-z0-9._]*$', 'Username saja, tanpa @ atau tautan.']
+            hint: Letak - tautan TikTok di footer. Kosongkan untuk menyembunyikannya.
+          - {label: Email, name: email, widget: string, required: false, hint: Letak - alamat email di footer. Kosongkan untuk menyembunyikannya.}
+          - label: Pesan WhatsApp umum
+            name: pesanUmum
+            widget: text
+            hint: Terisi di WhatsApp setelah menekan tombol mengambang atau ajakan beranda; bukan paragraf di web. Gunakan {nama} untuk nama merek.
+          - label: Pesan WhatsApp pemesanan produk
+            name: pesanPesan
+            widget: text
+            hint: Terisi di WhatsApp dari tombol pesan pada detail produk tersedia. Variabel yang tersedia adalah {nama}, {produk}, dan {harga}.
+          - label: Pesan WhatsApp produk terjual
+            name: pesanTerjual
+            widget: text
+            hint: Terisi di WhatsApp dari tombol permintaan desain pada produk terjual. Variabel yang tersedia adalah {nama} dan {produk}.
+          - {label: Label aksesibilitas tombol WhatsApp mengambang, name: labelWa, widget: string, hint: Dibaca pembaca layar untuk ikon WhatsApp kanan bawah; bukan tulisan yang tampak di tombol.}
+          - {label: Judul lengkap situs, name: namaLengkap, widget: text, hint: Dipakai untuk judul bawaan tab dan informasi pratinjau tautan; bukan judul besar di halaman.}
+
+  - name: teks_beranda
+    label: Teks Beranda
+    description: Tulisan beranda diurutkan dari atas ke bawah. Bar gratis ongkir ada di Pengaturan Situs; nama dan harga desain ada di Produk.
+    files:
+      - name: beranda
+        label: Tulisan di bawah banner sampai sebelum footer
+        file: src/data/pengaturan/beranda.json
+        fields:
+          - {label: 1. Judul tepat di bawah slideshow, name: judul, widget: text, hint: Letak - baris pertama pada bidang merah muda pucat setelah foto banner.}
+          - {label: 2. Jargon merek, name: jargon, widget: text, hint: Letak - baris kedua di bawah judul tadi; ditampilkan dengan huruf kapital.}
+          - {label: 3. Kalimat di bawah jargon, name: subJargon, widget: text, hint: Letak - baris ketiga dengan tulisan lebih kecil sebelum daftar produk.}
+          - {label: 4. Tautan menuju katalog, name: tautanKatalog, widget: text, hint: Letak - di sebelah kanan tepat di atas grid produk beranda.}
+          - {label: Tampilkan bagian keunggulan setelah produk, name: tampilkanKeunggulan, widget: boolean, default: true, hint: Mengatur tampil atau tidaknya seluruh daftar keunggulan di bawah.}
+          - label: 5. Keunggulan setelah daftar produk
+            name: keunggulan
+            widget: list
+            collapsed: false
+            required: false
+            default: []
+            summary: '{{fields.judul}}'
+            hint: Letak - setelah semua kartu produk. Urutan daftar dibaca dari kiri ke kanan di komputer dan atas ke bawah di HP. Setiap judul dan paragraf ditampilkan lengkap di bawah.
+            fields:
+              - {label: Judul keunggulan, name: judul, widget: text, hint: Tulisan di atas paragraf pada item keunggulan ini.}
+              - {label: Paragraf keunggulan, name: isi, widget: text, hint: Penjelasan tepat di bawah judul keunggulan ini.}
+          - {label: Tampilkan ajakan WhatsApp sebelum footer, name: tampilkanAjakan, widget: boolean, default: true, hint: Mengatur tampil atau tidaknya judul ajakan beserta paragraf dan tombolnya.}
+          - {label: 6. Judul ajakan WhatsApp, name: ajakanJudul, widget: text, hint: Letak - tulisan besar di tengah halaman setelah bagian keunggulan.}
+          - {label: 7. Penjelasan ajakan WhatsApp, name: ajakanIsi, widget: text, hint: Letak - paragraf tepat di bawah judul ajakan.}
+          - {label: 8. Tulisan tombol ajakan, name: ajakanTombol, widget: text, hint: Letak - tombol di bawah paragraf ajakan sebelum footer.}
+          - {label: Judul katalog untuk pembaca layar, name: judulKatalog, widget: string, hint: Tidak terlihat secara visual. Dibaca pembaca layar pada awal bagian grid produk.}
+
+  - name: teks_katalog
+    label: Teks Katalog dan Produk
+    description: Tulisan bersama untuk halaman Katalog dan detail produk. Nama, harga, warna, dan deskripsi masing-masing desain diubah lewat menu Produk.
+    files:
+      - name: katalog
+        label: Pencarian, filter, kartu, dan tombol produk
+        file: src/data/pengaturan/katalog.json
+        fields:
+          - {label: Judul katalog, name: judul, widget: text, hint: Letak - judul besar paling atas di halaman Katalog.}
+          - {label: Teks setelah jumlah produk, name: jumlah, widget: string, hint: Letak - setelah angka jumlah desain tepat di bawah judul Katalog.}
+          - {label: Petunjuk pencarian katalog, name: placeholderCari, widget: text, hint: Letak - tulisan di dalam kolom pencarian Katalog ketika kolom masih kosong.}
+          - {label: Tombol cari, name: cari, widget: string, hint: Letak - tombol di kanan kolom pencarian Katalog.}
+          - {label: Petunjuk pencarian dari banner, name: placeholderBanner, widget: text, hint: Letak - kolom dalam dialog pencarian setelah ikon kaca pembesar beranda ditekan.}
+          - {label: Label pencarian untuk pembaca layar, name: labelCari, widget: string, hint: Label tersembunyi kolom pencarian Katalog dan kolom pencarian dalam dialog banner.}
+          - {label: Filter semua, name: semua, widget: string, hint: Letak - tombol pertama pada baris filter bentuk dan panjang di Katalog.}
+          - {label: Label bentuk, name: bentuk, widget: string, hint: Letak - awal filter bentuk di Katalog dan judul atribut bentuk pada detail produk.}
+          - {label: Label panjang, name: panjang, widget: string, hint: Letak - awal filter panjang di Katalog dan judul atribut panjang pada detail produk.}
+          - {label: Pesan hasil pencarian kosong, name: kosong, widget: text, hint: Letak - pengganti grid Katalog ketika tidak ada produk yang cocok dengan pencarian atau filter.}
+          - {label: Keterangan produk tanpa foto, name: fotoKosong, widget: text, hint: Letak - bidang gambar pada kartu dan detail produk yang belum memiliki foto.}
+          - {label: Satuan isi di kartu produk, name: satuanKartu, widget: string, hint: Letak - setelah jumlah keping pada baris kecil di bawah nama kartu produk.}
+          - {label: Status terjual di kartu, name: terjualKartu, widget: string, hint: Letak - label di kiri bawah foto kartu produk saat stok tidak tersedia.}
+          - {label: Teks sebelum persentase diskon, name: hemat, widget: string, hint: Letak - label diskon di samping harga coret pada halaman detail produk.}
+          - {label: Label isi paket, name: isi, widget: string, hint: Letak - judul atribut jumlah keping di halaman detail produk.}
+          - {label: Satuan isi di detail produk, name: satuan, widget: string, hint: Letak - setelah jumlah keping pada atribut isi paket di detail produk.}
+          - {label: Label warna, name: warna, widget: string, hint: Letak - judul atribut warna di halaman detail produk. Nilai warnanya diubah pada produk masing-masing.}
+          - {label: Tombol pesan produk, name: pesanTombol, widget: text, hint: Letak - tombol pemesanan di bawah atribut produk yang tersedia.}
+          - {label: Judul produk terjual, name: terjualJudul, widget: text, hint: Letak - judul kotak pengganti tombol pemesanan saat produk tidak tersedia.}
+          - {label: Keterangan produk terjual, name: terjualIsi, widget: text, hint: Letak - paragraf dalam kotak produk terjual pada halaman detail.}
+          - {label: Tombol produk terjual, name: terjualTombol, widget: text, hint: Letak - tombol WhatsApp di bawah paragraf produk terjual.}
+          - {label: Pengantar panduan ukuran, name: panduanJudul, widget: text, hint: Letak - setelah deskripsi lengkap produk dan sebelum tautan panduan ukuran.}
+          - {label: Tautan panduan ukuran, name: panduanTautan, widget: text, hint: Letak - tautan menuju Cara Pesan setelah pengantar panduan ukuran pada detail produk.}
+          - {label: Judul rekomendasi produk, name: lainnya, widget: text, hint: Letak - judul di atas kartu rekomendasi paling bawah pada detail produk.}
+          - {label: Deskripsi katalog untuk mesin pencari, name: deskripsi, widget: text, hint: Metadata halaman Katalog; bukan paragraf yang terlihat di halaman.}
+
+  - name: halaman
+    label: Halaman Informasi
+    description: Buka halaman yang ingin diubah untuk melihat seluruh tulisannya. Kolom mengikuti urutan bagian halaman; {nama} otomatis menjadi nama merek.
+    files:
+      - name: cara_pesan
+        label: Halaman Cara Pesan
+        file: src/data/halaman/cara-pesan.json
+        fields:
+          - label: Metadata
+            name: meta
+            widget: object
+            collapsed: false
+            hint: Judul tab dan deskripsi mesin pencari; bukan isi yang terlihat di dalam halaman Cara Pesan.
+            fields:
+              - {label: Judul tab browser, name: judul, widget: string, hint: Nama halaman yang ditampilkan pada tab browser.}
+              - {label: Deskripsi mesin pencari, name: deskripsi, widget: text, hint: Ringkasan halaman untuk mesin pencari dan pratinjau tautan.}
+          - {label: 1. Judul halaman, name: judul, widget: text, hint: Letak - judul besar paling atas pada halaman Cara Pesan.}
+          - {label: 2. Paragraf pengantar, name: pengantar, widget: text, hint: Letak - paragraf tepat di bawah judul Cara Pesan.}
+          - label: 3. Langkah pemesanan
+            name: langkah
+            widget: list
+            collapsed: false
+            min: 1
+            summary: '{{fields.judul}}'
+            hint: Letak - daftar bernomor setelah paragraf pengantar. Urutan di sini sama dengan urutan di web.
+            fields:
+              - {label: Judul langkah, name: judul, widget: text, hint: Tulisan di samping nomor langkah ini.}
+              - {label: Penjelasan langkah, name: isi, widget: text, hint: Paragraf di bawah judul langkah ini.}
+          - label: 4. Ajakan menghubungi toko
+            name: ajakan
+            widget: object
+            collapsed: false
+            hint: Letak - kotak ajakan setelah langkah pemesanan dan sebelum pertanyaan umum.
+            fields:
+              - {label: Judul ajakan, name: judul, widget: text, hint: Judul di bagian atas kotak ajakan.}
+              - {label: Deskripsi ajakan, name: deskripsi, widget: text, hint: Paragraf di bawah judul ajakan.}
+              - {label: Teks tombol, name: tombol, widget: text, hint: Tulisan tombol WhatsApp di bawah paragraf ajakan.}
+              - {label: Pesan WhatsApp, name: pesanWhatsApp, widget: text, hint: Terisi di aplikasi WhatsApp setelah tombol ajakan ditekan; tidak terlihat sebagai paragraf di web.}
+          - {label: 5. Judul pertanyaan umum, name: judulFaq, widget: text, hint: Letak - judul di atas daftar tanya jawab pada bagian bawah halaman Cara Pesan.}
+          - label: 6. Pertanyaan dan jawaban lengkap
+            name: faq
+            widget: list
+            collapsed: false
+            min: 1
+            summary: '{{fields.tanya}}'
+            hint: Letak - daftar pertanyaan pada bagian bawah Cara Pesan. Jawaban terlihat di web setelah pertanyaan dibuka.
+            fields:
+              - {label: Pertanyaan, name: tanya, widget: text, hint: Baris pertanyaan yang dapat ditekan pengunjung.}
+              - {label: Jawaban, name: jawab, widget: text, hint: Penjelasan yang muncul di bawah pertanyaan ini.}
+      - name: tentang
+        label: Halaman Tentang
+        file: src/data/halaman/tentang.json
+        fields:
+          - label: Metadata
+            name: meta
+            widget: object
+            collapsed: false
+            hint: Judul tab dan deskripsi mesin pencari; bukan isi yang terlihat di dalam halaman Tentang.
+            fields:
+              - {label: Judul tab browser, name: judul, widget: string, hint: Nama halaman yang ditampilkan pada tab browser.}
+              - {label: Deskripsi mesin pencari, name: deskripsi, widget: text, hint: Ringkasan halaman untuk mesin pencari dan pratinjau tautan.}
+          - {label: 1. Judul halaman, name: judul, widget: text, hint: Letak - judul besar paling atas pada halaman Tentang.}
+          - label: 2. Paragraf tentang toko
+            name: paragraf
+            widget: list
+            collapsed: false
+            min: 1
+            hint: Letak - isi utama di bawah judul Tentang. Setiap item menjadi satu paragraf sesuai urutan dari atas ke bawah.
+            field: {label: Paragraf, name: paragraf, widget: text, hint: Teks paragraf lengkap; bukan HTML.}
+          - label: 3. Ajakan menghubungi toko
+            name: ajakan
+            widget: object
+            collapsed: false
+            hint: Letak - kotak ajakan setelah semua paragraf Tentang dan sebelum footer.
+            fields:
+              - {label: Judul ajakan, name: judul, widget: text, hint: Judul di bagian atas kotak ajakan.}
+              - {label: Deskripsi ajakan, name: deskripsi, widget: text, hint: Paragraf di bawah judul ajakan.}
+              - {label: Teks tombol, name: tombol, widget: text, hint: Tulisan tombol WhatsApp di bawah paragraf ajakan.}
+              - {label: Pesan WhatsApp, name: pesanWhatsApp, widget: text, hint: Terisi di aplikasi WhatsApp setelah tombol ajakan ditekan; tidak terlihat sebagai paragraf di web.}
+      - name: tidak_ditemukan
+        label: Halaman Tidak Ditemukan (404)
+        file: src/data/halaman/tidak-ditemukan.json
+        fields:
+          - label: Metadata
+            name: meta
+            widget: object
+            collapsed: false
+            hint: Judul tab dan deskripsi mesin pencari untuk halaman alamat yang tidak ditemukan.
+            fields:
+              - {label: Judul tab browser, name: judul, widget: string, hint: Nama halaman yang ditampilkan pada tab browser.}
+              - label: Deskripsi mesin pencari
+                name: deskripsi
+                widget: text
+                required: false
+                hint: Kosongkan untuk memakai deskripsi situs.
+          - {label: 1. Kode yang ditampilkan, name: kode, widget: string, hint: Letak - kode besar di bagian atas halaman ketika alamat yang dibuka tidak ada.}
+          - {label: 2. Judul halaman, name: judul, widget: text, hint: Letak - judul di bawah kode kesalahan.}
+          - {label: 3. Penjelasan halaman tidak ditemukan, name: deskripsi, widget: text, hint: Letak - paragraf di bawah judul kesalahan.}
+          - {label: 4. Teks tombol ke katalog, name: tombol, widget: text, hint: Letak - tombol di bawah penjelasan kesalahan.}
+
+  - name: identitas
+    label: Logo dan Tulisan Merek
+    media_folder: /src/assets/merek
+    public_folder: '@assets/merek'
+    files:
+      - name: gambar
+        label: Gambar identitas
+        file: src/data/identitas/gambar.json
+        fields:
+          - label: Logo bulat
+            name: logo
+            widget: image
+            hint: Gunakan gambar persegi. Dipakai di banner, header, dan footer.
+          - label: Gambar tulisan merek
+            name: wordmark
+            widget: image
+            hint: Gunakan PNG atau WebP transparan. Mengubah nama merek pada pengaturan tidak mengubah tulisan dalam gambar ini.
+          - {label: Ikon tab browser, name: favicon, widget: image, hint: Gunakan gambar persegi.}
+          - {label: Ikon pintasan HP, name: ikonHp, widget: image, hint: Gunakan gambar persegi.}
+          - label: Gambar saat tautan dibagikan
+            name: berbagi
+            widget: image
+            hint: Disarankan 1200 x 630 piksel. Aplikasi penerima mungkin menyimpan gambar lama dalam cache.
+
+  - name: banner
+    label: Banner Beranda
+    description: >-
+      Kelola foto slideshow beranda. Banner SHA.KU selalu pertama (3 detik),
+      diikuti slide aktif sesuai urutan daftar (masing-masing 6 detik).
+    media_folder: /src/assets/banner
+    public_folder: '@assets/banner'
+    files:
+      - name: beranda
+        label: Foto dan urutan slideshow
+        file: src/data/banner/beranda.json
+        fields:
+          - label: Banner utama SHA.KU
+            name: utama
+            widget: object
+            collapsed: false
+            hint: Selalu tampil pertama. Tulisan SHA.KU di tengah dipasang otomatis.
+            fields:
+              - label: Foto desktop
+                name: foto
+                widget: image
+              - label: Foto HP
+                name: fotoHp
+                widget: image
+                required: false
+                hint: Opsional. Jika kosong, memakai foto desktop.
+          - label: Slide setelah banner utama
+            name: slide
+            widget: list
+            required: false
+            default: []
+            collapsed: false
+            summary: '{{fields.nama}}'
+            hint: Geser urutan item untuk mengatur slideshow. Daftar boleh kosong.
+            fields:
+              - label: Nama atau deskripsi foto
+                name: nama
+                widget: string
+                hint: Dipakai sebagai deskripsi gambar untuk aksesibilitas.
+              - label: Tampilkan slide
+                name: aktif
+                widget: boolean
+                default: true
+                hint: Matikan untuk menyembunyikan tanpa menghapus foto.
+              - label: Foto desktop
+                name: foto
+                widget: image
+              - label: Foto HP
+                name: fotoHp
+                widget: image
+                required: false
+                hint: Opsional. Foto tegak cocok untuk HP. Jika kosong, memakai foto desktop.
+              - label: Fokus foto HP - horizontal (%)
+                name: fokusHpX
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                default: 50
+                hint: 0 kiri, 50 tengah, 100 kanan.
+              - label: Fokus foto HP - vertikal (%)
+                name: fokusHpY
+                widget: number
+                value_type: int
+                min: 0
+                max: 100
+                default: 50
+                hint: 0 atas, 50 tengah, 100 bawah.
+
+  - name: produk
+    label: Produk
+    label_singular: Produk
+    description: >-
+      Setiap produk di sini menjadi satu halaman di katalog. Perubahan baru
+      muncul di situs beberapa menit setelah disimpan.
+    folder: src/data/produk
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}} — Rp {{harga}}'
+    sortable_fields: [urutan, nama, harga]
+    view_groups:
+      - label: Bentuk
+        field: bentuk
+    fields:
+      - label: Nama produk
+        name: nama
+        widget: string
+        hint: Dipakai juga untuk alamat halaman. Hindari mengubahnya setelah dipublikasikan.
+
+      - label: Ringkasan singkat
+        name: ringkasan
+        widget: string
+        hint: Satu kalimat, maksimal 160 huruf. Dipakai sebagai deskripsi mesin pencari pada halaman produk; bukan paragraf di kartu katalog.
+        pattern: ['^.{1,160}$', 'Maksimal 160 huruf.']
+
+      - label: Foto produk
+        name: foto
+        widget: image
+        multiple: true
+        required: false
+        hint: Foto pertama dipakai sebagai gambar utama. Boleh kosong; situs menampilkan keterangan foto belum tersedia.
+
+      - label: Harga (Rupiah)
+        name: harga
+        widget: number
+        value_type: int
+        min: 0
+        hint: Tulis angka saja tanpa titik, contoh 85000.
+
+      - label: Harga coret
+        name: hargaCoret
+        widget: number
+        value_type: int
+        min: 0
+        required: false
+        hint: Isi hanya bila sedang diskon. Kosongkan bila tidak.
+
+      - label: Bentuk kuku
+        name: bentuk
+        widget: select
+        options: [almond, coffin, square, stiletto, oval, round]
+
+      - label: Panjang kuku
+        name: panjang
+        widget: select
+        options: [pendek, sedang, panjang]
+
+      - label: Warna
+        name: warna
+        widget: list
+        collapsed: false
+        min: 1
+        hint: Dipakai untuk penyaringan katalog. Contoh, merah lalu glossy.
+
+      - label: Jumlah keping per set
+        name: jumlahKuku
+        widget: number
+        value_type: int
+        min: 1
+        default: 24
+
+      - label: Stok tersedia
+        name: tersedia
+        widget: boolean
+        default: true
+        hint: Matikan bila stok habis. Produk tetap tampil tapi tidak bisa dipesan.
+
+      - label: Tampilkan di beranda
+        name: unggulan
+        widget: boolean
+        default: false
+
+      - label: Urutan tampil
+        name: urutan
+        widget: number
+        value_type: int
+        default: 100
+        hint: Angka lebih kecil tampil lebih dulu di katalog.
+
+      - label: Keterangan lengkap
+        name: body
+        widget: markdown
+        hint: Letak - penjelasan lengkap setelah tombol pemesanan pada halaman detail produk, termasuk isi paket. Seluruh isi dapat diedit di kolom ini.
