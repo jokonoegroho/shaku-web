@@ -15,24 +15,24 @@
     {
       "nama": "Kuku hitam dengan garis putih",
       "aktif": true,
-      "foto": "@assets/banner/hitam.webp",
-      "fotoHp": "@assets/banner/hitam-hp.webp",
+      "foto": "@assets/banner/IMG_0454.jpeg",
+      "fotoHp": "@assets/banner/IMG_0454.jpeg",
       "fokusHpX": 50,
       "fokusHpY": 50
     },
     {
       "nama": "Kuku putih motif daun",
       "aktif": true,
-      "foto": "@assets/banner/daun.webp",
-      "fotoHp": "@assets/banner/daun-hp.webp",
+      "foto": "@assets/banner/IMG_0452.jpeg",
+      "fotoHp": "@assets/banner/IMG_0452.jpeg",
       "fokusHpX": 50,
       "fokusHpY": 50
     },
     {
       "nama": "Foto iklan kuku french dengan hiasan kristal",
       "aktif": true,
-      "foto": "@assets/banner/iklan-french.jpg",
-      "fotoHp": "@assets/banner/iklan-french-hp.webp",
+      "foto": "@assets/banner/IMG_0448.jpeg",
+      "fotoHp": "@assets/banner/IMG_0448.jpeg",
       "fokusHpX": 20,
       "fokusHpY": 50
     }
