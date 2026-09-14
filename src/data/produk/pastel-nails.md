@@ -4,8 +4,8 @@ ringkasan: desain unik, lucu serta sentuhan warna warna pastel pilihan terbaik n
 foto:
   - '@assets/produk/FullSizeRender.jpeg'
   - '@assets/produk/FullSizeRender.jpeg'
-harga: 50
-hargaCoret: 75
+harga: 50000
+hargaCoret: 75000
 bentuk: almond
 panjang: panjang
 warna:
@@ -34,12 +34,9 @@ Pilihan Ukuran (Panjang & Bentuk)
 
 Cara Pemasangan
 
-1.	Bersihkan kuku asli dari minyak/kotoran menggunakan alcohol swab.
-
-2.	Dorong kutikula secara perlahan, lalu kikir halus permukaan kuku asli agar lem menempel sempurna.
-
-3.	Pilih ukuran kuku palsu yang pas, aplikasikan lem secukupnya.
-
-4.	Tempelkan kuku palsu dari arah dasar kutikula, lalu tekan tahan selama 15–30 detik.
+1. Bersihkan kuku asli dari minyak/kotoran menggunakan alcohol swab.
+2. Dorong kutikula secara perlahan, lalu kikir halus permukaan kuku asli agar lem menempel sempurna.
+3. Pilih ukuran kuku palsu yang pas, aplikasikan lem secukupnya.
+4. Tempelkan kuku palsu dari arah dasar kutikula, lalu tekan tahan selama 15–30 detik.
 
 Mau tampil stunning buat acara spesial atau sekadar harian? Yuk, tanyakan ketersediaan desain dan konsultasi ukuran kuku kamu via chat!
