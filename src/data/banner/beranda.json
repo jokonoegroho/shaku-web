@@ -15,8 +15,8 @@
     {
       "nama": "Kuku hitam dengan garis putih",
       "aktif": true,
-      "foto": "@assets/banner/IMG_0454.jpeg",
-      "fotoHp": "@assets/banner/IMG_0454.jpeg",
+      "foto": "@assets/banner/hitam-hp.webp",
+      "fotoHp": "@assets/banner/hitam-hp.webp",
       "fokusHpX": 50,
       "fokusHpY": 50
     },
