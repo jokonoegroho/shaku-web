@@ -1,16 +1,19 @@
 ---
-nama: "Pearl Milk"
-harga: 95000
-bentuk: "oval"
-panjang: "sedang"
-warna: ["putih", "pearl"]
-jumlahKuku: 10
+nama: Pearl Milk
+ringkasan: Putih susu dengan efek mutiara. Lembut, cocok untuk lamaran dan akad.
 foto:
-  - "@assets/produk/pearl-oval.jpg"
+  - '@assets/produk/image.jpg'
+harga: 95000
+hargaCoret: null
+bentuk: oval
+panjang: sedang
+warna:
+  - putih
+  - pearl
+jumlahKuku: 10
 tersedia: false
 unggulan: false
 urutan: 50
-ringkasan: "Putih susu dengan efek mutiara. Lembut, cocok untuk lamaran dan akad."
 ---
 
 Tampil cantik tanpa perlu buang waktu dan biaya mahal ke salon. Press-on nails kami dirancang khusus menggunakan gel berkualitas tinggi yang tahan lama, reusable (bisa dipakai berulang kali), dan sangat praktis dipasang sendiri dalam kurun waktu kurang dari 10 menit.
