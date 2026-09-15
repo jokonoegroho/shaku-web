@@ -11,9 +11,9 @@ warna:
   - putih
   - pearl
 jumlahKuku: 10
-tersedia: false
+tersedia: true
 unggulan: false
-urutan: 50
+urutan: 2
 ---
 
 Tampil cantik tanpa perlu buang waktu dan biaya mahal ke salon. Press-on nails kami dirancang khusus menggunakan gel berkualitas tinggi yang tahan lama, reusable (bisa dipakai berulang kali), dan sangat praktis dipasang sendiri dalam kurun waktu kurang dari 10 menit.
