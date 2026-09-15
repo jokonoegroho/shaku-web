@@ -1,8 +1,6 @@
 ---
 nama: Pearl Milk
 ringkasan: Putih susu dengan efek mutiara. Lembut, cocok untuk lamaran dan akad.
-foto:
-  - '@assets/produk/image.jpg'
 harga: 95000
 hargaCoret: null
 bentuk: oval
