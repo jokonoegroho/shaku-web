@@ -12,7 +12,7 @@ warna:
   - pearl
 jumlahKuku: 10
 tersedia: true
-unggulan: false
+unggulan: true
 urutan: 2
 ---
 
