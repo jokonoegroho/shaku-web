@@ -2,10 +2,9 @@
 nama: pastel nails
 ringkasan: desain unik, lucu serta sentuhan warna warna pastel pilihan terbaik nailist kami mengikuti trend yang terkini
 foto:
-  - '@assets/produk/FullSizeRender.jpeg'
   - '@assets/produk/image.jpg'
-harga: 50000
-hargaCoret: 75000
+harga: 75000
+hargaCoret: 50000
 bentuk: almond
 panjang: panjang
 warna:
@@ -13,7 +12,7 @@ warna:
 jumlahKuku: 10
 tersedia: true
 unggulan: true
-urutan: 100
+urutan: 1
 ---
 
 Tampil cantik tanpa perlu buang waktu dan biaya mahal ke salon. Press-on nails kami dirancang khusus menggunakan gel berkualitastinggi yang tahan lama, reusable (bisa dipakai berulang kali), dan sangat praktis dipasang sendiri dalam kurun waktu kurang dari 10 menit.
